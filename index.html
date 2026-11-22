@@ -374,7 +374,7 @@ input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!import
     <input type="text" id="chQ" placeholder="Название манхвы" autocomplete="off">
     <div id="chSt"></div>
     <div id="chList"></div>
-    <details id="chPx"><summary>Прокси для сайтов</summary>
+    <details id="chPx"><summary>Свой сервер (необязательно)</summary>
       <input type="text" id="pxUrl" placeholder="https://avros-proxy.имя.workers.dev" autocomplete="off">
       <button class="btn ghost" id="pxSave">Сохранить и проверить</button>
     </details>
@@ -754,7 +754,7 @@ function loadImages(blobs){
   const ph = $("ph"); if(ph) ph.remove();
   let loaded = 0;
   const done = () => { if(++loaded === blobs.length){ renderMarks(); placeCursors(); if(lastRemote && shouldFollow(lastRemote)) setPos(lastRemote.p, lastRemote.o); else updPage(); } };
-  blobs.forEach(f => { const im = new Image(); im.draggable = false; im.onload = im.onerror = done; im.decoding = "async"; im.referrerPolicy = "no-referrer"; im.src = typeof f === "string" ? f : URL.createObjectURL(f); reader.append(im); });
+  blobs.forEach(f => { const im = new Image(); im.draggable = false; im.onload = done; im.onerror = () => { if(!im._r && typeof f === "string"){ im._r = 1; im.src = "https://wsrv.nl/?url="+encodeURIComponent(f.replace(/^https?:\/\//, "")); } else done(); }; im.decoding = "async"; im.referrerPolicy = "no-referrer"; im.src = typeof f === "string" ? f : URL.createObjectURL(f); reader.append(im); });
   toast("Глава загружена: "+blobs.length+" стр.");
   localCover(blobs[0]);
   if(meta.by === uid && (meta.access || "invite") !== "invite") makeCover(blobs[0]);
@@ -1001,18 +1001,33 @@ $("emoBtn").onclick = () => { $("emojis").hidden = !$("emojis").hidden; };
 /* ---------- глава по ссылке ---------- */
 const PROXIES = [u => "https://corsproxy.io/?url="+encodeURIComponent(u), u => "https://api.allorigins.win/raw?url="+encodeURIComponent(u), u => "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u)];
 const PX = () => (LS.proxy || "").replace(/\/+$/, "");
+const PUB = [
+  u => "https://corsproxy.io/?url="+encodeURIComponent(u),
+  u => "https://api.allorigins.win/raw?url="+encodeURIComponent(u),
+  u => "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u),
+  u => "https://cors.eu.org/"+u,
+  u => "https://yacdn.org/proxy/"+u,
+  u => "https://r.jina.ai/"+u,
+];
+function cleanBody(x, json){
+  const k = x.indexOf("Markdown Content:"); if(k >= 0 && x.indexOf("URL Source:") >= 0) x = x.slice(k+17);
+  x = x.trim();
+  if(!json) return x;
+  const i = x.search(/[\[{]/), j = Math.max(x.lastIndexOf("}"), x.lastIndexOf("]"));
+  if(i < 0 || j < i) throw new Error("nojson");
+  x = x.slice(i, j+1); JSON.parse(x); return x;
+}
 async function netText(url, ref, json){
-  const px = PX(), tries = [];
+  const px = PX(), tries = [], ctl = new AbortController();
   if(px) tries.push(px+"/api?url="+encodeURIComponent(url)+(ref ? "&ref="+encodeURIComponent(ref) : ""));
-  tries.push(url); PROXIES.forEach(f => tries.push(f(url)));
-  for(const t of tries){
-    try{
-      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 12000);
-      const r = await fetch(t, {signal:ctl.signal}); clearTimeout(tm);
-      if(r.ok){ const x = await r.text(); if(x && x.length > 1 && (!json || /^\s*[\[{]/.test(x))) return x; }
-    }catch(e){}
-  }
-  throw new Error("net");
+  tries.push(url); PUB.forEach(f => tries.push(f(url)));
+  const one = async t => {
+    const tm = setTimeout(() => ctl.abort(), 15000);
+    try{ const r = await fetch(t, {signal:ctl.signal}); if(!r.ok) throw new Error("http"); const x = cleanBody(await r.text(), json); if(!x || x.length < 2) throw new Error("empty"); return x; }
+    finally{ clearTimeout(tm); }
+  };
+  try{ const x = await Promise.any(tries.map(one)); ctl.abort(); return x; }
+  catch(e){ throw new Error("net"); }
 }
 const netJson = async (u, ref) => JSON.parse(await netText(u, ref, true));
 const imgProxy = (u, ref) => PX() ? PX()+"/img?url="+encodeURIComponent(u)+"&ref="+encodeURIComponent(ref || "https://remanga.org/") : u;
@@ -1056,7 +1071,7 @@ async function loadRemanga(id){
     const pages = rmFlat((d.content || {}).pages || []).filter(p => p && p.link).sort((x,y) => (x.id||0)-(y.id||0));
     if(!pages.length) throw new Error("empty");
     await publishImgs("https://remanga.org/manga/chapter/"+id, pages.map(p => imgProxy(new URL(p.link, RMR).href.replace(/^http:/, "https:"))));
-  }catch(e){ setSt("Глава с ReManga не загрузилась. Нужен прокси (внизу) или глава платная"); $("chPx").open = true; toast("Глава не загрузилась"); }
+  }catch(e){ setSt("Глава с ReManga не загрузилась: сайт закрыт для ботов или глава платная. Найди эту манхву во вкладке MangaDex"); toast("Глава не загрузилась"); }
 }
 function slugQuery(url){
   try{
@@ -1127,14 +1142,14 @@ async function searchManga(q, keepSt){
     box.innerHTML = ""; if(!keepSt) setSt(list.length ? "" : "Ничего не нашлось. Попробуй другое название");
     list.forEach(m => box.append(chRow(m.cover, m.title, m.sub, () => openManga(m))));
   }catch(e){
-    setSt(chProv === "rm" ? "ReManga не отвечает без прокси. Открой «Прокси для сайтов» внизу или выбери MangaDex" : "Поиск не отвечает. Проверь интернет");
-    if(chProv === "rm") $("chPx").open = true;
+    if(chProv === "rm"){ setProv("md"); setSt("ReManga закрыт для ботов, ищу в MangaDex..."); return searchManga(q, true); }
+    setSt("Каталог сейчас не отвечает. Попробуй ещё раз или добавь главу файлами с телефона (кнопка ниже)");
   }
 }
 async function openManga(m){
   chManga = m; const box = $("chList"); box.innerHTML = ""; setSt("Загружаю главы...");
   try{ chChapters = await (m.kind === "rm" ? rmChapters(m) : mdChapters(m)); setSt(chChapters.length ? "" : "Глав не нашлось (возможно, они платные)"); renderChapters(); }
-  catch(e){ setSt("Не получилось загрузить список глав"); if(m.kind === "rm") $("chPx").open = true; }
+  catch(e){ setSt(m.kind === "rm" ? "ReManga закрыт для ботов. Найди эту манхву во вкладке MangaDex" : "Не получилось загрузить список глав"); }
 }
 function renderChapters(){
   const box = $("chList"); box.innerHTML = "";
