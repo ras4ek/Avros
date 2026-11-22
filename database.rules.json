@@ -1,0 +1,56 @@
+{
+  "rules": {
+    ".info": {
+      ".read": true,
+      ".write": true
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth == $uid"
+      }
+    },
+    "codes": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null && newData.val() == auth.uid"
+      }
+    },
+    "friends": {
+      "$uid": {
+        ".read": "auth == $uid",
+        ".write": "auth != null"
+      }
+    },
+    "requests": {
+      "$uid": {
+        ".read": "auth == $uid",
+        ".write": "auth != null"
+      }
+    },
+    "invites": {
+      "$uid": {
+        ".read": "auth == $uid",
+        ".write": "auth != null"
+      }
+    },
+    "dm": {
+      "$pair": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "rooms": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "publicRooms": {
+      "$code": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    }
+  }
+}
