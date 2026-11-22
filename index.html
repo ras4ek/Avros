@@ -32,8 +32,8 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 #entry,#home,#app{position:relative;z-index:1}
 
 /* стекло */
-.card,.act,.hsearch,.rc,.rec,#info,.rb,.bub,.chip,#toast,.empty{background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--gline);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.14)}
-#top,#whoBar,#chat,.sheet,#inv{background:var(--dk);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.card,.act,.hsearch,.rc,.rec,#info,.rb,.bub,.chip,#toast,.empty{background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--gline);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.14)}
+#top,#whoBar,#chat,.sheet,#inv{background:var(--dk);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 input[type=text],input[type=email],input[type=password]{width:100%;background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:16px;color:#fff;padding:14px 16px;font-size:15px;font-family:inherit;font-weight:500;outline:none;transition:border-color .15s,box-shadow .15s}
 input[type=text]:focus,input[type=email]:focus,input[type=password]:focus{border-color:#c9bcff;box-shadow:0 0 0 4px rgba(139,108,255,.25)}
 ::placeholder{color:rgba(255,255,255,.45)}
@@ -166,7 +166,7 @@ body.clean #unhide{display:flex}
 #toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;display:none;z-index:99;max-width:90%;background:rgba(30,24,64,.8)}
 #inv{position:fixed;top:12px;left:50%;transform:translateX(-50%);border:1px solid var(--gline);border-radius:20px;padding:10px 12px;z-index:98;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;width:92%;max-width:420px}
 #inv span{flex:1}
-.modal{position:fixed;inset:0;background:rgba(6,4,18,.6);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);z-index:90;display:flex;align-items:flex-end;justify-content:center}
+.modal{position:fixed;inset:0;background:rgba(6,4,18,.6);z-index:90;display:flex;align-items:flex-end;justify-content:center}
 .sheet{border:1px solid var(--gline);border-bottom:0;border-radius:30px 30px 0 0;width:100%;max-width:480px;height:80%;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -10px 50px rgba(0,0,0,.45)}
 @media(min-width:900px){.modal{align-items:center}.sheet{border-radius:30px;height:70%;border-bottom:1px solid var(--gline)}}
 .sheet .hd{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px 20px;font-weight:800;font-size:18px;letter-spacing:-.02em}
@@ -184,12 +184,10 @@ body.clean #unhide{display:flex}
 
 @keyframes sheetUp{from{transform:translateY(46px);opacity:0}}
 @keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(255,255,255,.14)}}
 .modal:not([hidden]) .sheet{animation:sheetUp .3s cubic-bezier(.2,.9,.3,1)}
 .rc,.chip,.mrow{animation:in .35s both}
 .rc,.btn,.ibtn,.chip{transition:transform .15s,filter .15s}
 .rc:active,.chip:active{transform:scale(.97)}
-.cur .dot{animation:pulse 1.6s infinite}
 #who{cursor:pointer}
 .crown{display:inline-block;animation:pop .4s both}
 .mrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -202,9 +200,7 @@ body.clean #unhide{display:flex}
 .emo{width:1.25em;height:1.25em;vertical-align:-.25em;display:inline-block;pointer-events:none;-webkit-user-drag:none}
 body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;letter-spacing:-.01em}
 .btn{position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,filter .2s}
-.btn:not(.ghost):not(.g)::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);animation:shine 4.5s ease-in-out infinite}
 @keyframes shine{40%,100%{transform:translateX(120%)}}
-.btn:not(.ghost):not(.g):active{filter:brightness(1.12)}
 .rc,.card,.rec,.act{border-radius:22px;transition:transform .2s cubic-bezier(.2,.9,.3,1),box-shadow .2s,border-color .2s}
 @media(hover:hover){.rc:hover,.rec:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.3);box-shadow:0 16px 38px rgba(0,0,0,.35),0 0 0 1px rgba(139,108,255,.25)}}
 .rc .th{border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
@@ -216,6 +212,22 @@ input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!import
 .chip{border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.06))}
 ::-webkit-scrollbar{width:0;height:0}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* --- плавность и производительность --- */
+.aurora i,.aurora::before{animation:none!important;opacity:.78}
+#wrap{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.cur{transition:transform .11s linear;will-change:transform}
+.mk{transition:transform .25s ease-out}
+#reader img{backface-visibility:hidden}
+.chrow{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.08);color:#fff;font-family:inherit;cursor:pointer}
+.chrow .nm{white-space:normal;font-size:15px}
+.chrow .mut{font-weight:500;font-size:12px;opacity:.7;margin-top:2px}
+.chcv{width:46px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.08)}
+.chtabs{display:flex;gap:8px;margin:8px 0}
+.chtabs button{border:0;border-radius:999px;padding:7px 14px;font:700 13px inherit;font-family:inherit;color:#fff;background:rgba(255,255,255,.12);cursor:pointer}
+.chtabs button.on{background:var(--grad)}
+.chback{border:0;background:none;color:#cfc6ff;font:700 14px inherit;font-family:inherit;padding:6px 0;cursor:pointer}
+.chip .pg{opacity:.65;font-weight:600}
 </style>
 </head>
 <body>
@@ -265,13 +277,8 @@ input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!import
     </div>
     <div id="whoBar"><div id="who"></div></div>
     <div id="wrap"><div id="reader"><div id="marks"></div><div id="cursors"></div>
-      <div id="ph">Глава не выбрана<button class="btn" id="phUrl">Вставить ссылку на главу</button><button class="btn ghost" id="phImg">Файлы с телефона</button><button class="btn ghost" id="phBk">Взять главу с любого сайта</button></div></div></div>
+      <div id="ph">Глава не выбрана<button class="btn" id="phUrl">Вставить ссылку на главу</button><button class="btn ghost" id="phImg">Файлы с телефона</button></div></div></div>
     <div id="float"></div><div id="bubbles"></div>
-    <div id="side">
-      <button class="rb on" id="btnFollow" data-i="eye" title="Следовать за читающим"></button>
-      <button class="rb" id="btnPoint" data-i="pointer" title="Указка"></button>
-      <button class="rb" id="btnMode" data-i="crown" title="Хост"></button>
-    </div>
     <div id="info">
       <div class="icv" id="icv"></div>
       <div class="itx"><div class="it" id="iTitle">Без названия</div><div class="is" id="iSub">Загрузите главу</div></div>
@@ -346,7 +353,7 @@ input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!import
   <div class="bd">
     <div class="small">Название манхвы</div><input type="text" id="crTitle" maxlength="60" placeholder="Например: Solo Leveling">
     <div class="small">Ссылка на главу</div>
-    <div class="two" style="margin-bottom:8px"><button class="btn ghost" id="crGoogle" style="margin-top:0">Найти в Google</button><button class="btn ghost" id="crPaste" style="margin-top:0">Вставить</button></div>
+    <div class="two" style="margin-bottom:8px"><button class="btn ghost" id="crGoogle" style="margin-top:0">Найти манхву</button><button class="btn ghost" id="crPaste" style="margin-top:0">Вставить</button></div>
     <input type="text" id="crUrl" placeholder="https://..." autocomplete="off">
     <div class="small">Кто сможет присоединиться</div>
     <div class="accrow" id="crAccRow"><button data-a="public"><span data-i="globe"></span>Публичные</button><button data-a="friends"><span data-i="users"></span>Только друзья</button><button class="on" data-a="invite"><span data-i="lock"></span>По приглашению</button></div>
@@ -354,43 +361,23 @@ input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!import
   </div>
 </div></div>
 
-<div class="modal" id="ch" hidden><div class="sheet" style="height:auto;max-height:92%">
-  <div class="hd"><span>Глава по ссылке</span><button class="ibtn" id="chClose" data-i="x"></button></div>
-  <div class="bd">
-    <div class="small">Ссылка на страницу главы</div>
-    <input type="text" id="chUrl" placeholder="https://..." autocomplete="off">
-    <div class="two"><button class="btn ghost" id="chGoogle">Найти в Google</button><button class="btn ghost" id="chPaste">Вставить</button></div>
-    <button class="btn" id="chGo">Загрузить главу</button>
-    <button class="btn ghost" id="chBk">Кнопка Avros для любого сайта</button>
+<div class="modal" id="ch" hidden><div class="sheet" style="height:88%">
+  <div class="hd"><span id="chTitle">Выбрать главу</span><button class="ibtn" id="chClose" data-i="x"></button></div>
+  <div class="bd" id="chBody">
+    <div id="chLink">
+      <input type="text" id="chUrl" placeholder="Вставь ссылку на главу" autocomplete="off">
+      <div class="two"><button class="btn ghost" id="chPaste">Вставить</button><button class="btn" id="chGo">Загрузить</button></div>
+    </div>
+    <div class="small">Найти манхву</div>
+    <input type="text" id="chQ" placeholder="Название манхвы" autocomplete="off">
     <div id="chSt"></div>
+    <div id="chList"></div>
   </div>
 </div></div>
 
 <div class="modal" id="mem" hidden><div class="sheet" style="height:auto;max-height:80%">
   <div class="hd"><span>Кто в комнате</span><button class="ibtn" id="memClose" data-i="x"></button></div>
   <div class="bd" id="memList"></div>
-</div></div>
-
-<div class="modal" id="bk" hidden><div class="sheet" style="height:auto;max-height:92%">
-  <div class="hd"><span>Кнопка Avros</span><button class="ibtn" id="bkClose" data-i="x"></button></div>
-  <div class="bd">
-        <div class="small">1. Скопируй код кнопки</div>
-    <button class="btn" id="bkCopy" style="margin-top:0">Скопировать код кнопки</button>
-    <div class="small">2. Добавь закладку в Chrome</div>
-    <div class="hint" style="margin:0;font-size:14px">Открой любой сайт, нажми три точки и звёздочку. Потом три точки, «Изменить закладку»: имя Avros, а в поле адреса вставь скопированный код.</div>
-    <div class="small">3. Пользуйся</div>
-    <div class="hint" style="margin:0;font-size:14px">Открой главу на нужном сайте, нажми на адресную строку, впиши слово Avros и выбери закладку из подсказок. Откроется Avros с главой, останется создать комнату.</div>
-  </div>
-</div></div>
-
-<div class="modal" id="gb" hidden><div class="sheet" style="height:auto;max-height:92%">
-  <div class="hd"><span>Глава найдена</span><button class="ibtn" id="gbClose" data-i="x"></button></div>
-  <div class="bd">
-    <div class="hint" id="gbInfo" style="margin:0 0 6px;font-size:14px"></div>
-    <div class="small">Название</div><input type="text" id="gbTitle" maxlength="60">
-    <button class="btn" id="gbNew">Создать комнату</button>
-    <button class="btn ghost" id="gbLast" hidden></button>
-  </div>
 </div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -472,8 +459,8 @@ if(!LS.color) LS.color = COLORS[Math.floor(Math.random()*COLORS.length)];
 let myColor = LS.color;
 let myName = "", booted = false, bootTs = Date.now();
 let friends = {}, finfo = {}, reqs = {}, watched = {}, unread = 0, dmWith = null, dmRef = null;
-let roomRef = null, roomCode = "", peers = {}, hostId = null, hostMode = true, meta = {};
-let follow = true, applying = false, lastRemote = null, zoom = 1, lastC = 0, tmr = null;
+let roomRef = null, roomCode = "", peers = {}, hostId = null, hostMode = false, meta = {};
+let follow = true, lastLocal = 0, applying = false, lastRemote = null, zoom = 1, lastC = 0, tmr = null;
 
 const PHOTO_RE = /^(data:image\/jpeg;base64,[A-Za-z0-9+\/=]+|https:\/\/[^\s"'()]+)$/;
 function mkAv(name, color, photo, size){
@@ -625,7 +612,7 @@ function enterRoom(code, opts){
     if(list.length) loadImages(list);
   });
   roomRef.child("host").on("value", s => { hostId = s.val(); if(hostId === uid) roomRef.child("host").onDisconnect().remove(); updMode(); renderWho(); if(!$("mem").hidden) renderMem(); });
-  roomRef.child("hostMode").on("value", s => { hostMode = s.val() !== false; updMode(); });
+  
   roomRef.child("users").on("value", s => { peers = s.val() || {}; renderWho(); $("cnt").textContent = Object.keys(peers).length+" в комнате"; });
   let sysReady = false;
   roomRef.child("users").on("child_added", s => { if(sysReady && s.key !== uid) addSys((s.val().name || "Кто-то")+" присоединился"); });
@@ -668,14 +655,8 @@ function claimHost(){
   });
 }
 const driving = () => !(hostId && hostMode) || hostId === uid;
-const shouldFollow = v => follow && v.by !== uid && (!(hostId && hostMode) || v.by === hostId);
-function updMode(){
-  const b = $("btnMode"); let t;
-  if(hostId === uid){ t = hostMode ? "Ты ведёшь чтение (нажми — свободный режим)" : "Свободный режим (нажми — вести чтение)"; b.classList.toggle("on", hostMode); }
-  else if(hostId){ t = hostMode ? "Чтение ведёт хост" : "Свободный режим"; b.classList.remove("on"); }
-  else { t = "Стать хостом"; b.classList.remove("on"); }
-  b.title = t;
-}
+const shouldFollow = v => v.by !== uid && Date.now()-lastLocal > 700;
+function updMode(){}
 let whoSig = "";
 function renderWho(){
   refreshHome(); renderMarks();
@@ -685,7 +666,7 @@ function renderWho(){
   const w = $("who"); w.innerHTML = "";
   ent.forEach(([k,v]) => {
     const c = el("div","chip"), a = mkAv(v.name, v.color, photoOf(k));
-    c.append(a, el("span",null,(k===hostId?"👑 ":"")+(v.n ? "Стр. "+v.page+"/"+v.n : "—")));
+    c.append(a, el("span",null,(k===hostId?"👑 ":"")+(v.name||"Без имени")+(k===uid?" (ты)":"")), el("span","pg",v.n ? " · "+v.page : ""));
     w.append(c);
   });
 }
@@ -700,11 +681,19 @@ function getPos(){
   const im = list[i];
   return {p:i, o:Math.max(0,Math.min(1,(y-im.offsetTop)/(im.offsetHeight||1))), n:list.length};
 }
+let scAnim = 0;
 function setPos(p, o){
   const list = imgs(), im = list[Math.min(p, list.length-1)]; if(!im) return;
-  applying = true; wrap.scrollTop = reader.offsetTop + im.offsetTop + o*im.offsetHeight;
-  setTimeout(() => { applying = false; updPage(); }, 150);
+  const target = reader.offsetTop + im.offsetTop + o*im.offsetHeight, from = wrap.scrollTop, d = target-from;
+  cancelAnimationFrame(scAnim); applying = true;
+  const done = () => { applying = false; updPage(); };
+  if(Math.abs(d) < 2){ done(); return; }
+  if(Math.abs(d) > wrap.clientHeight*2.5){ wrap.scrollTop = target; setTimeout(done, 150); return; }
+  const t0 = performance.now(), dur = 280;
+  const step = now => { const k = Math.min(1, (now-t0)/dur), e = 1-Math.pow(1-k, 3); wrap.scrollTop = from + d*e; if(k < 1) scAnim = requestAnimationFrame(step); else setTimeout(done, 60); };
+  scAnim = requestAnimationFrame(step);
 }
+wrap.addEventListener("touchstart", () => { cancelAnimationFrame(scAnim); applying = false; }, {passive:true});
 function updInfo(g){
   if(!g) return;
   $("iSub").textContent = "Стр. "+(g.p+1)+" из "+g.n; $("progBar").style.width = Math.min(100, (g.p+g.o)/g.n*100)+"%";
@@ -736,7 +725,8 @@ function renderMarks(){
 function placeCursor(c){ c.style.transform = "translate3d("+(c._x*reader.clientWidth)+"px,"+(c._y*reader.clientHeight)+"px,0)"; }
 function placeCursors(){ document.querySelectorAll(".cur").forEach(placeCursor); }
 wrap.addEventListener("scroll", () => {
-  if(applying || !roomRef || tmr) return;
+  if(applying) return; lastLocal = Date.now();
+  if(!roomRef || tmr) return;
   tmr = setTimeout(() => { tmr = null; pushPos(); }, 150);
 });
 
@@ -791,10 +781,6 @@ $("zipInput").addEventListener("change", async e => {
 });
 $("btnZip").onclick = () => $("zipInput").click();
 function sizeReader(){ reader.style.width = Math.min(wrap.clientWidth, 720)*zoom + "px"; requestAnimationFrame(() => { renderMarks(); placeCursors(); }); }
-$("btnPoint").onclick = function(){
-  const on = document.body.classList.toggle("point"); this.classList.toggle("on", on);
-  toast(on ? "Указка: водишь пальцем — она видит. Скролл выключен" : "Скролл включён");
-};
 function setZoom(z){ const g = getPos(); zoom = Math.max(.6, Math.min(2.2, z)); sizeReader(); if(g) setPos(g.p, g.o); }
 $("zIn").onclick = () => setZoom(zoom+.2); $("zOut").onclick = () => setZoom(zoom-.2);
 window.addEventListener("resize", sizeReader);
@@ -811,16 +797,6 @@ $("btnChat").onclick = () => { $("chat").classList.toggle("open"); chatUnread = 
 $("chatClose").onclick = () => $("chat").classList.remove("open");
 
 /* ---------- кнопки ---------- */
-$("btnFollow").onclick = function(){
-  follow = !follow; this.classList.toggle("on", follow);
-  toast(follow ? "Слежение включено" : "Листаю сам");
-  if(follow && lastRemote && shouldFollow(lastRemote)) setPos(lastRemote.p, lastRemote.o);
-};
-$("btnMode").onclick = () => {
-  if(hostId === uid) roomRef.child("hostMode").set(!hostMode);
-  else if(!hostId) claimHost();
-  else toast("Сейчас хост: "+((peers[hostId]||{}).name||"…"));
-};
 $("btnFr2").onclick = $("hFr").onclick = openFriends;
 $("frClose").onclick = () => { $("fr").hidden = true; closeDM(); };
 $("addBtn").onclick = addFriend;
@@ -863,7 +839,6 @@ if(configured){
     if(!LS.nick && !$("nick").value){ const g = u.displayName ? u.displayName.split(" ")[0] : (u.email ? u.email.split("@")[0] : "Гость"); $("nick").value = g.slice(0,16); }
     if(started) return; started = true;
     if($("nick").value.trim()){ if(qRoom) enterRoom(qRoom.toUpperCase()); else ensureBoot(); }
-    if(pendingGrab) setTimeout(showGrab, 400);
   });
 } else showAuth(true);
 
@@ -1044,33 +1019,108 @@ function extractImages(html, base){
   return best.map(u => u.replace(/^http:/, "https:"));
 }
 function setSt(t){ $("chSt").textContent = t; }
+const MD = "https://api.mangadex.org", MDR = "&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica";
+let chMode = "room", chLang = "all", chChapters = [], chManga = null, qTimer = 0;
+async function mdGet(path){ const r = await fetch(MD+path); if(!r.ok) throw new Error("http "+r.status); return r.json(); }
+async function loadMangadex(id){
+  if(!roomRef) return;
+  setSt("Загружаю главу..."); toast("Загружаю главу...");
+  try{
+    const d = await mdGet("/at-home/server/"+id), h = d.chapter.hash;
+    const list = (d.chapter.dataSaver || []).map(f => d.baseUrl.replace(/^http:/, "https:")+"/data-saver/"+h+"/"+f);
+    if(!list.length) throw new Error("empty");
+    await roomRef.child("chapter").set({url:"https://mangadex.org/chapter/"+id, imgs:list, ts:Date.now(), by:uid});
+    saveRecent("https://mangadex.org/chapter/"+id, meta.title); $("ch").hidden = true; setSt("");
+  }catch(e){ setSt("Не получилось загрузить эту главу. Выбери другую"); toast("Глава не загрузилась"); }
+}
+function slugQuery(url){
+  try{
+    const parts = new URL(url).pathname.split("/").filter(Boolean), i = parts.findIndex(x => /^(manga|title|series|comic|manhwa|read)$/i.test(x));
+    let seg = i >= 0 ? parts[i+1] : parts.sort((x,y) => y.length-x.length)[0];
+    return (seg || "").replace(/[-_]+/g, " ").replace(/\b\d+\b/g, "").trim();
+  }catch(e){ return ""; }
+}
 async function loadFromUrl(raw){
+  if(/^mangadex:/.test(raw || "")) return loadMangadex(raw.slice(9));
   let url = (raw || "").split(/javascript:/i)[0].trim(); { const mm = url.match(/https?:\/\/\S+/i); if(mm) url = mm[0]; }
   if(!/^https?:\/\//i.test(url)){ if(/^[\w-]+(\.[\w-]+)+\S*$/.test(url)) url = "https://"+url; else return toast("Вставь ссылку на страницу главы"); }
   if(!roomRef) return;
-  if(!driving()) return toast("Главу выбирает хост");
   setSt("Ищу картинки на странице..."); toast("Ищу картинки...");
   try{
     const list = extractImages(await fetchHtml(url), url);
     if(list.length < 3) throw new Error("few");
     await roomRef.child("chapter").set({url, imgs:list, ts:Date.now(), by:uid});
-    saveRecent(url, meta.title); setSt("Найдено страниц: "+list.length); $("ch").hidden = true;
+    saveRecent(url, meta.title); setSt(""); $("ch").hidden = true;
   }catch(e){
-    setSt("Сайт не отдал страницу. Нажми «Кнопка Avros для любого сайта» ниже: она берёт главу прямо из твоего браузера.");
-    toast("Сайт не отдал страницу. Используй кнопку Avros");
+    const q = slugQuery(url); setSt("Этот сайт не отдаёт главу. Нашёл похожие манхвы, выбери нужную:");
+    if(q){ $("chQ").value = q; searchManga(q, true); }
   }
 }
-function googleSearch(q){ window.open("https://www.google.com/search?q="+encodeURIComponent((q ? q+" " : "")+"читать онлайн манхва глава"), "_blank", "noopener"); }
-async function pasteTo(id){ try{ $(id).value = (await navigator.clipboard.readText()).trim(); }catch(e){ toast("Нажми на поле и вставь ссылку вручную"); } }
-function openChapter(){ if(!roomRef) return; if(!driving()) return toast("Главу выбирает хост"); setSt(""); $("ch").hidden = false; }
+function chRow(img, title, sub, onTap){
+  const r = document.createElement("button"); r.className = "mrow chrow";
+  if(img){ const i = new Image(); i.src = img; i.className = "chcv"; i.loading = "lazy"; i.referrerPolicy = "no-referrer"; r.append(i); }
+  const d = document.createElement("div"); d.className = "nm"; d.append(title); if(sub){ const m = document.createElement("div"); m.className = "mut"; m.textContent = sub; d.append(m); }
+  r.append(d); r.onclick = onTap; return r;
+}
+const mdTitle = m => { const t = m.attributes.title || {}; return t.en || t.ru || t["ja-ro"] || Object.values(t)[0] || "Без названия"; };
+const mdCover = m => { const c = (m.relationships || []).find(r => r.type === "cover_art"); return c && c.attributes ? "https://uploads.mangadex.org/covers/"+m.id+"/"+c.attributes.fileName+".256.jpg" : ""; };
+async function searchManga(q, keepSt){
+  const box = $("chList"); chManga = null; if(!keepSt) setSt("Ищу...");
+  try{
+    const d = await mdGet("/manga?limit=20&includes[]=cover_art&order[relevance]=desc"+MDR+"&title="+encodeURIComponent(q));
+    if($("chQ").value.trim() !== q) return;
+    box.innerHTML = ""; if(!keepSt) setSt(d.data.length ? "" : "Ничего не нашлось. Попробуй другое название");
+    d.data.forEach(m => box.append(chRow(mdCover(m), mdTitle(m), [m.attributes.year, m.attributes.status].filter(Boolean).join(" · "), () => openManga(m))));
+  }catch(e){ setSt("Поиск сейчас недоступен. Проверь интернет или вставь ссылку"); }
+}
+async function openManga(m){
+  chManga = m; const box = $("chList"); box.innerHTML = ""; setSt("Загружаю главы...");
+  try{
+    let all = [], off = 0, total = 1;
+    while(off < total && off < 1500){
+      const d = await mdGet("/manga/"+m.id+"/feed?limit=500&offset="+off+"&order[chapter]=asc&translatedLanguage[]=ru&translatedLanguage[]=en&includeExternalUrl=0"+MDR);
+      total = d.total; off += 500; all = all.concat(d.data);
+    }
+    chChapters = all.filter(c => c.attributes.pages > 0 && !c.attributes.externalUrl); setSt(""); renderChapters();
+  }catch(e){ setSt("Не получилось загрузить список глав"); }
+}
+function renderChapters(){
+  const box = $("chList"); box.innerHTML = "";
+  const back = document.createElement("button"); back.className = "chback"; back.textContent = "← К результатам"; back.onclick = () => { const q = $("chQ").value.trim(); if(q) searchManga(q); else box.innerHTML = ""; };
+  const h = document.createElement("div"); h.className = "nm"; h.style.cssText = "font-weight:800;font-size:17px;margin:4px 0"; h.textContent = mdTitle(chManga);
+  const tabs = document.createElement("div"); tabs.className = "chtabs";
+  [["all","Все"],["ru","RU"],["en","EN"]].forEach(([k,t]) => { const b = document.createElement("button"); b.textContent = t; b.className = chLang === k ? "on" : ""; b.onclick = () => { chLang = k; renderChapters(); }; tabs.append(b); });
+  box.append(back, h, tabs);
+  const rows = chChapters.filter(c => chLang === "all" || c.attributes.translatedLanguage === chLang);
+  if(!rows.length){ const e = document.createElement("div"); e.className = "hint"; e.textContent = "Для этого языка глав нет"; box.append(e); return; }
+  rows.forEach(c => { const a = c.attributes;
+    box.append(chRow("", "Глава "+(a.chapter || "?")+(a.title ? " · "+a.title : ""), a.translatedLanguage.toUpperCase()+" · "+a.pages+" стр.", () => pickChapter(c, a))); });
+}
+function pickChapter(c, a){
+  if(chMode === "create"){
+    $("crUrl").value = "mangadex:"+c.id; if(!$("crTitle").value.trim() && chManga) $("crTitle").value = mdTitle(chManga).slice(0,60);
+    $("ch").hidden = true; toast("Глава выбрана: "+(a.chapter || "?")); return;
+  }
+  loadMangadex(c.id);
+}
+function showSearch(mode){
+  chMode = mode; $("chLink").hidden = mode === "create"; $("chTitle").textContent = mode === "create" ? "Найти манхву" : "Выбрать главу";
+  setSt(""); $("ch").hidden = false;
+  const q = mode === "create" ? $("crTitle").value.trim() : (meta.title || "");
+  if(q && !$("chQ").value.trim()){ $("chQ").value = q; searchManga(q); }
+}
+function openChapter(){ if(!roomRef) return; showSearch("room"); }
 $("btnChUrl").addEventListener("click", openChapter);
 $("phUrl").onclick = openChapter;
 $("chClose").onclick = () => { $("ch").hidden = true; };
 $("chGo").onclick = () => loadFromUrl($("chUrl").value);
-$("chGoogle").onclick = () => googleSearch(meta.title || "");
-$("chPaste").onclick = () => pasteTo("chUrl");
-$("crGoogle").onclick = () => googleSearch($("crTitle").value.trim());
+$("chUrl").addEventListener("paste", () => setTimeout(() => { if($("chUrl").value.trim()) loadFromUrl($("chUrl").value); }, 60));
+$("chPaste").onclick = async () => { await pasteTo("chUrl"); if($("chUrl").value.trim()) loadFromUrl($("chUrl").value); };
+$("chQ").addEventListener("input", () => { clearTimeout(qTimer); const q = $("chQ").value.trim(); if(!q){ $("chList").innerHTML = ""; return; } qTimer = setTimeout(() => searchManga(q), 450); });
+$("crGoogle").onclick = () => showSearch("create");
 $("crPaste").onclick = () => pasteTo("crUrl");
+function setSt(t){ $("chSt").textContent = t; }
+async function pasteTo(id){ try{ $(id).value = (await navigator.clipboard.readText()).trim(); }catch(e){ toast("Нажми на поле и вставь ссылку вручную"); } }
 
 /* ---------- главный экран: друзья и недавние ---------- */
 function renderHomeFriends(){
@@ -1099,56 +1149,6 @@ function renderRecent(){
 $("addFr").onclick = openFriends;
 $("codeCard").onclick = () => { $("hq").focus(); toast("Введи код комнаты в поиске"); };
 renderHomeFriends(); renderRecent();
-
-/* ---------- кнопка Avros (закладка-граббер) и приём главы ---------- */
-let pendingGrab = null;
-(function(){
-  const m = /^#grab=(.+)$/.exec(location.hash); if(!m) return;
-  try{
-    const g = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
-    if(g && Array.isArray(g.i)){ g.i = g.i.filter(u => typeof u === "string" && /^https?:\/\//.test(u) && u.length < 2000).map(u => u.replace(/^http:/, "https:")).slice(0, 400); if(g.i.length >= 3) pendingGrab = g; }
-  }catch(e){}
-  history.replaceState(null, "", location.pathname+location.search);
-})();
-function grabber(APP){
-  var h = document.documentElement.outerHTML.replace(/\\\//g, "/").replace(/&amp;/g, "&");
-  var re = /["'(]([^"'()\s<>]+?\.(?:jpe?g|png|webp|avif)(?:\?[^"'()\s<>]*)?)["')]/gi, seen = {}, out = [], m, u;
-  while((m = re.exec(h))){ try{ u = new URL(m[1], location.href).href; }catch(e){ continue; } if(/^https?:/.test(u) && !seen[u]){ seen[u] = 1; out.push(u); } }
-  var g = {};
-  out.forEach(function(u){ var x = new URL(u), k = x.origin + x.pathname.replace(/[^\/]*$/, ""); (g[k] = g[k] || []).push(u); });
-  var best = [], bs = -1, seq = /(\/|[-_])\d{1,4}\.(jpe?g|png|webp|avif)/i;
-  Object.keys(g).forEach(function(k){ var a = g[k], sc = a.length + a.filter(function(u){ return seq.test(u); }).length * 2; if(sc > bs){ bs = sc; best = a; } });
-  if(best.length < 3){ alert("Avros: no chapter images found on this page"); return; }
-  location.href = APP + String.fromCharCode(35) + "grab=" + encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({t: document.title, u: location.href, i: best})))));
-}
-const BM = "javascript:(" + grabber.toString().replace(/\n\s*/g, "") + ")(\"" + (location.origin+location.pathname) + "\")";
-function publishChapter(url, list, title){
-  if(!roomRef) return;
-  if(!driving()) return toast("Главу выбирает хост");
-  roomRef.child("chapter").set({url, imgs:list, ts:Date.now(), by:uid}); saveRecent(url, title || meta.title);
-}
-function showGrab(){
-  const g = pendingGrab; if(!g) return;
-  $("gbInfo").textContent = "Найдено страниц: "+g.i.length; $("gbTitle").value = (g.t || "").slice(0,60);
-  const last = LS.lastRoom; $("gbLast").hidden = !last; if(last) $("gbLast").textContent = "Добавить в комнату "+last;
-  $("gb").hidden = false;
-}
-$("gbClose").onclick = () => { pendingGrab = null; $("gb").hidden = true; };
-$("gbNew").onclick = () => {
-  const g = pendingGrab; if(!g || !ensureBoot()) return;
-  const t = $("gbTitle").value.trim(); $("gb").hidden = true; pendingGrab = null;
-  enterRoom(genCode(), {create:true, title:t, access:"invite"}); setTimeout(() => publishChapter(g.u, g.i, t), 700);
-};
-$("gbLast").onclick = () => {
-  const g = pendingGrab, code = LS.lastRoom; if(!g || !code || !ensureBoot()) return;
-  const t = $("gbTitle").value.trim(); $("gb").hidden = true; pendingGrab = null;
-  enterRoom(code); setTimeout(() => publishChapter(g.u, g.i, t), 1000);
-};
-$("phBk").onclick = $("chBk").onclick = () => { $("bk").hidden = false; };
-$("bkClose").onclick = () => { $("bk").hidden = true; };
-$("bkCopy").onclick = async () => {
-  try{ await navigator.clipboard.writeText(BM); toast("Код кнопки скопирован"); }catch(e){ prompt("Скопируй код вручную:", BM); }
-};
 
 /* ---------- участники: друзья и корона ---------- */
 function renderMem(){
@@ -1203,58 +1203,35 @@ function emoNode(n){
 emoNode(document.body);
 new MutationObserver(ms => ms.forEach(m => { m.addedNodes.forEach(emoNode); if(m.type === "characterData") emoNode(m.target); })).observe(document.body, {childList:true, subtree:true, characterData:true});
 
-/* ---------- живой фон: световые ленты, светлячки, падающие звёзды, волны от касаний ---------- */
+/* ---------- живой фон: тёплый дождь ---------- */
 (function(){
   const host = document.querySelector(".aurora"); if(!host) return;
   const cv = document.createElement("canvas"); cv.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none"; host.append(cv);
   const ctx = cv.getContext("2d"), reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
-  const COL = [[124,92,255],[255,61,139],[18,181,255],[255,179,71]], rgba = (c,a) => "rgba("+c[0]+","+c[1]+","+c[2]+","+a+")";
-  let W, H, dpr, mob, ps = [], rings = [], shoot = null, nextShoot = 3000, mx = .5, my = .5, tx = .5, ty = .5, px = -999, py = -999, last = 0;
-  function size(){
-    dpr = Math.min(devicePixelRatio || 1, 1.5); W = innerWidth; H = innerHeight; mob = W < 900;
-    cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-    ps = Array.from({length: mob ? 36 : 70}, () => ({x:Math.random()*W, y:Math.random()*H, z:.3+Math.random()*.7, c:COL[(Math.random()*4)|0], ph:Math.random()*6.28, sp:.2+Math.random()*.5}));
-  }
+  let W, H, mob, drops = [], rings = [], last = 0;
+  const mk = () => { const z = .35+Math.random()*.65; return {x:Math.random()*(W+160)-40, y:-Math.random()*H, z, l:10+z*20, v:7+z*11, gy:H*(.62+.36*z)}; };
+  function size(){ W = innerWidth; H = innerHeight; mob = W < 900; cv.width = W; cv.height = H; drops = Array.from({length: mob ? 55 : 110}, mk); drops.forEach(d => d.y = Math.random()*d.gy); rings = []; }
   size(); addEventListener("resize", size);
-  addEventListener("pointermove", e => { tx = e.clientX/W; ty = e.clientY/H; px = e.clientX; py = e.clientY; }, {passive:true});
-  addEventListener("pointerdown", e => { rings.push({x:e.clientX, y:e.clientY, r:0, c:COL[(Math.random()*4)|0]}); if(rings.length > 6) rings.shift(); }, {passive:true});
   function frame(now){
     if(!reduce) requestAnimationFrame(frame);
     if(document.hidden) return;
-    const room = document.body.classList.contains("inroom"), gap = room ? (mob ? 100 : 40) : 16;
-    if(now-last < gap) return; const dt = Math.min(now-last, 100)/16; last = now;
-    const t = now/1000; mx += (tx-mx)*.05; my += (ty-my)*.05;
-    ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation = "lighter";
-    const k = room ? .55 : 1;
-    for(let r = 0; r < 3; r++){
-      const g = ctx.createLinearGradient(0,0,W,0); COL.forEach((c,i) => g.addColorStop(i/3, rgba(COL[(i+r)%4], 1)));
-      const base = H*(.22+.28*r), N = mob ? 28 : 48;
-      ctx.beginPath();
-      for(let i = 0; i <= N; i++){
-        const x = i/N*W, y = base + Math.sin(x*.004*(r+1)+t*.5*(1+r*.3)+r*2)*H*.08 + Math.sin(x*.011-t*.7+r)*H*.03 + (my-.5)*34*(r+1) + (mx-.5)*20*Math.sin(x*.01);
-        i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
-      }
-      ctx.strokeStyle = g; ctx.lineCap = "round"; ctx.lineJoin = "round";
-      [[34,.05],[12,.1],[3,.5]].forEach(w => { ctx.lineWidth = w[0]; ctx.globalAlpha = w[1]*k; ctx.stroke(); });
-    }
-    ctx.globalAlpha = 1;
-    ps.forEach(p => {
-      p.y -= p.sp*p.z*dt*.6; p.x += Math.sin(t*.6+p.ph)*.25*p.z*dt; if(p.y < -10){ p.y = H+10; p.x = Math.random()*W; }
-      const x = p.x+(mx-.5)*50*p.z, y = p.y+(my-.5)*50*p.z, a = (.35+.65*Math.abs(Math.sin(t*1.2+p.ph)))*p.z*k, r = 1+p.z*1.8;
-      ctx.fillStyle = rgba(p.c, a*.18); ctx.beginPath(); ctx.arc(x,y,r*4,0,6.283); ctx.fill();
-      ctx.fillStyle = rgba([255,255,255], a*.9); ctx.beginPath(); ctx.arc(x,y,r*.7,0,6.283); ctx.fill();
-      const d = Math.hypot(x-px, y-py); if(!mob && d < 130){ ctx.strokeStyle = rgba(p.c, (1-d/130)*.35); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(px,py); ctx.stroke(); }
+    const room = document.body.classList.contains("inroom"), gap = room ? (mob ? 66 : 33) : 33;
+    if(now-last < gap) return; const dt = Math.min(now-last, 80)/16.7; last = now;
+    ctx.clearRect(0,0,W,H); ctx.lineCap = "round";
+    const wind = .28, n = room && mob ? drops.length*.6|0 : drops.length;
+    [[0,.7,"rgba(170,190,255,.22)",1],[.7,1.1,"rgba(205,220,255,.42)",1.4]].forEach(g => {
+      ctx.strokeStyle = g[2]; ctx.lineWidth = g[3]; ctx.beginPath();
+      for(let i = 0; i < n; i++){ const d = drops[i]; if(d.z < g[0] || d.z >= g[1]) continue; ctx.moveTo(d.x, d.y); ctx.lineTo(d.x+d.l*wind, d.y+d.l); }
+      ctx.stroke();
     });
-    rings = rings.filter(o => { o.r += 3.2*dt; const a = 1-o.r/180; if(a <= 0) return false; ctx.strokeStyle = rgba(o.c, a*.5); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,6.283); ctx.stroke(); return true; });
-    if(!shoot && now > nextShoot){ shoot = {x:Math.random()*W*.8, y:Math.random()*H*.35, l:0}; nextShoot = now+6000+Math.random()*6000; }
-    if(shoot){
-      shoot.l += 9*dt; const x = shoot.x+shoot.l, y = shoot.y+shoot.l*.45, g = ctx.createLinearGradient(x-90,y-40,x,y);
-      g.addColorStop(0,"rgba(255,255,255,0)"); g.addColorStop(1,"rgba(255,255,255,.85)"); ctx.strokeStyle = g; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x-90,y-40); ctx.lineTo(x,y); ctx.stroke();
-      if(shoot.l > 420 || x > W+100) shoot = null;
+    for(let i = 0; i < n; i++){
+      const d = drops[i]; d.y += d.v*dt; d.x += d.v*wind*dt;
+      if(d.y >= d.gy){ if(rings.length < 24) rings.push({x:d.x, y:d.gy, r:1, z:d.z}); const z = mk(); d.x = z.x; d.y = -20; d.z = z.z; d.l = z.l; d.v = z.v; d.gy = z.gy; }
     }
-    ctx.globalCompositeOperation = "source-over";
+    ctx.lineWidth = 1;
+    rings = rings.filter(o => { o.r += .55*dt; const a = .38-o.r/(10+10*o.z); if(a <= 0) return false; ctx.strokeStyle = "rgba(200,215,255,"+a.toFixed(2)+")"; ctx.beginPath(); ctx.ellipse(o.x, o.y, o.r*1.8, o.r*.6, 0, 0, 6.283); ctx.stroke(); return true; });
   }
-  if(reduce){ frame(performance.now()+50); } else requestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
