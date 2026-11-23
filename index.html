@@ -15,6 +15,7 @@ body{background:var(--bg);color:var(--tx);font-family:Manrope,system-ui,"Segoe U
 [hidden]{display:none!important}
 :focus-visible{outline:2px solid #c9bcff;outline-offset:2px}
 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+
 /* живой фон: градиентные пятна вместо blur-фильтра (тот же вид, в разы дешевле) */
 .aurora{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#17113a 0%,#0a0818 70%);contain:strict}
 .aurora i,.aurora::before{content:"";position:absolute;border-radius:50%;will-change:transform;backface-visibility:hidden}
@@ -29,6 +30,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 @media(prefers-reduced-motion:reduce){.aurora i,.aurora::before{animation:none}}
 @media(max-width:899px){body.inroom .aurora i,body.inroom .aurora::before{animation-play-state:paused}}
 #entry,#home,#app{position:relative;z-index:1}
+
 /* стекло */
 .card,.act,.hsearch,.rc,.rec,#info,.rb,.bub,.chip,#toast,.empty{background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--gline);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.14)}
 #top,#whoBar,#chat,.sheet,#inv{background:var(--dk);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -50,10 +52,12 @@ input[type=text]:focus,input[type=email]:focus,input[type=password]:focus{border
 .two{display:flex;gap:8px}.two .btn{margin-top:10px}
 .lnk{background:none;border:0;color:var(--mu);font:inherit;font-size:13px;font-weight:600;margin-top:12px;cursor:pointer}
 .or{color:var(--mu);font-size:12px;margin:16px 0 10px}
+
 #entry{height:100%;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px}
 .card{margin:auto;width:100%;max-width:360px;padding:34px 24px 26px;border-radius:30px;text-align:center}
 .logo{display:flex;align-items:center;justify-content:center;gap:12px;font-size:34px;font-weight:800;letter-spacing:-.04em;margin-bottom:26px}
 .logo svg{width:46px;height:46px}
+
 #home{display:none;height:100%;flex-direction:column}
 .htop{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;padding-top:max(12px,env(safe-area-inset-top))}
 .hav{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:none;padding:0;cursor:pointer;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -89,6 +93,7 @@ input[type=text]:focus,input[type=email]:focus,input[type=password]:focus{border
 .empty{color:var(--mu);text-align:center;padding:34px 24px;font-size:14px;line-height:1.5;border-radius:22px;border-style:dashed}
 .hint{font-size:12px;color:var(--mu);margin-top:10px;line-height:1.45}
 #chSt{font-size:13px;color:#d4c9ff;margin-top:12px;min-height:18px}
+
 #app{display:none;height:100%}
 #stage{flex:1;display:flex;flex-direction:column;position:relative;min-width:0}
 #top{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;padding-top:max(6px,env(safe-area-inset-top));z-index:30;border-bottom:1px solid var(--line)}
@@ -105,4 +110,1213 @@ body.point #wrap{touch-action:none}
 #ph .btn{max-width:260px;margin:12px auto 0}
 #marks,#cursors{position:absolute;inset:0;pointer-events:none;contain:layout style}
 #marks{z-index:15}#cursors{z-index:20}
-<script src="touch-overlay.js"></script>
+.mk{position:absolute;left:0;top:0;right:0;height:3px;opacity:.85;transition:transform .2s;will-change:transform}
+.mk span{position:absolute;right:6px;top:4px;font-size:11px;font-weight:700;color:#fff;padding:2px 8px;border-radius:8px}
+.cur{position:absolute;left:0;top:0;transition:transform .1s linear;will-change:transform}
+.cur .dot{width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.6);margin:-8px 0 0 -8px}
+.cur .tag{position:absolute;left:10px;top:-8px;font-size:11px;font-weight:700;color:#fff;padding:2px 8px;border-radius:8px;white-space:nowrap}
+#side{position:absolute;right:10px;bottom:118px;display:flex;flex-direction:column;gap:10px;z-index:40}
+.rb{width:48px;height:48px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.rb.on{background:var(--grad);border-color:transparent}
+#info{position:absolute;left:10px;right:10px;bottom:max(12px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:10px;padding:10px 6px 16px 10px;border-radius:24px;z-index:40;overflow:hidden}
+.icv{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#5b3fd1,#d4337a) center/cover;flex-shrink:0}
+.itx{flex:1;min-width:0}.it{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.is{font-size:12px;color:var(--mu);margin-top:2px;font-weight:600}
+.prog{position:absolute;left:0;right:0;bottom:0;height:16px;cursor:pointer}
+.prog::before{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.16)}
+.prog i{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--grad)}
+#unhide{display:none;position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;z-index:45}
+body.clean #top,body.clean #whoBar,body.clean #side,body.clean #info{display:none}
+body.clean #unhide{display:flex}
+#bubbles{position:absolute;left:12px;bottom:100px;display:flex;flex-direction:column;gap:6px;z-index:35;pointer-events:none;max-width:68%}
+.bub{border-radius:18px;padding:7px 12px;font-size:13px;font-weight:600;animation:in .2s}
+#float{position:absolute;inset:0;pointer-events:none;z-index:36;overflow:hidden}
+.fl{position:absolute;bottom:110px;font-size:40px;animation:up 2.6s ease-out forwards}
+@keyframes up{to{transform:translateY(-55vh) scale(1.3);opacity:0}}
+@keyframes in{from{opacity:0;transform:translateY(6px)}}
+
+#chat{display:flex;flex-direction:column;width:360px;flex-shrink:0;background:linear-gradient(180deg,var(--tint) 0,var(--dk) 40%);border-left:1px solid var(--line)}
+.chd{padding:8px 10px 4px 16px}
+.grab{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.3);margin:0 auto 6px}
+.chrow{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800}
+.mut{font-size:12px;color:var(--mu);font-weight:600;flex:1}
+.cscroll{flex:1;overflow-y:auto;padding:4px 16px 10px}
+.invrow{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;padding:10px 0}
+.invrow a{color:#d4c9ff;text-decoration:underline;cursor:pointer;letter-spacing:.06em;font-weight:800}
+.accq{font-size:15px;font-weight:800;margin:6px 0 8px}
+.accrow{display:flex;gap:8px}
+.accrow button{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:18px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:var(--mu);font:inherit;font-size:12px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2}
+.accrow button.on{border-color:#c9bcff;color:#fff;background:rgba(139,108,255,.3)}
+.accrow svg{width:26px;height:26px}
+#msgs{margin-top:8px}
+.m{display:flex;gap:10px;margin:12px 0;align-items:flex-end}.m.me{flex-direction:row-reverse}
+.mb{max-width:76%}.nm{font-size:12px;font-weight:700;margin:0 0 3px 4px}
+.tx{background:rgba(255,255,255,.14);border-radius:18px 18px 18px 6px;padding:9px 13px;font-size:15px;line-height:1.35;word-break:break-word;font-weight:500}
+.m.me .tx{background:var(--grad);border-radius:18px 18px 6px 18px}
+.m.rx .tx{background:none;padding:0;font-size:36px;line-height:1.1}
+.sys{display:flex;align-items:center;justify-content:center;margin:12px 0;font-size:13px;color:var(--mu);font-weight:600}
+.rxbar{display:flex;justify-content:space-between;padding:6px 12px;border-top:1px solid var(--line)}
+.rxb{background:none;border:0;font-size:26px;padding:4px 6px;cursor:pointer;line-height:1}
+#emojis{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:6px 10px;border-top:1px solid var(--line);max-height:150px;overflow-y:auto;background:rgba(0,0,0,.18)}
+#emojis button{background:none;border:0;font-size:24px;padding:5px;cursor:pointer;line-height:1}
+.msg{margin-bottom:8px;word-break:break-word;font-size:14px;line-height:1.4}.msg b{font-weight:700;margin-right:6px}
+#dmmsgs{flex:1;overflow-y:auto;padding:10px 14px}
+@media(max-width:899px){#chat{position:fixed;left:0;right:0;bottom:0;height:74%;width:auto;border:0;border-top:1px solid var(--gline);border-radius:28px 28px 0 0;transform:translateY(105%);transition:transform .28s;z-index:60;box-shadow:0 -12px 40px rgba(0,0,0,.5);padding-bottom:env(safe-area-inset-bottom)}#chat.open{transform:none}}
+@media(min-width:900px){#btnChat,#chatClose,.grab{display:none}}
+
+#toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;display:none;z-index:99;max-width:90%;background:rgba(30,24,64,.8)}
+#inv{position:fixed;top:12px;left:50%;transform:translateX(-50%);border:1px solid var(--gline);border-radius:20px;padding:10px 12px;z-index:98;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;width:92%;max-width:420px}
+#inv span{flex:1}
+.modal{position:fixed;inset:0;background:rgba(6,4,18,.6);z-index:90;display:flex;align-items:flex-end;justify-content:center}
+.sheet{border:1px solid var(--gline);border-bottom:0;border-radius:30px 30px 0 0;width:100%;max-width:480px;height:80%;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -10px 50px rgba(0,0,0,.45)}
+@media(min-width:900px){.modal{align-items:center}.sheet{border-radius:30px;height:70%;border-bottom:1px solid var(--gline)}}
+.sheet .hd{display:flex;align-items:center;justify-content:space-between;padding:12px 12px 8px 20px;font-weight:800;font-size:18px;letter-spacing:-.02em}
+.sheet .bd{flex:1;overflow-y:auto;padding:0 20px 16px}
+.fr{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.fr .nm{flex:1;margin:0;font-size:14px;font-weight:600}.dotc{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3);flex-shrink:0}.dotc.on{background:var(--ok)}
+.tiles{display:flex;gap:10px}
+.tile{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 8px;border-radius:18px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.tile.on{border-color:#c9bcff;background:rgba(139,108,255,.3)}.tile svg{width:32px;height:32px}
+.srow{display:flex;align-items:center;gap:14px;width:100%;padding:15px 4px;background:none;border:0;border-bottom:1px solid var(--line);color:#fff;font:inherit;font-size:16px;font-weight:600;text-align:left;cursor:pointer}
+.srow .st{flex:1}
+.tg{width:46px;height:28px;border-radius:999px;background:rgba(255,255,255,.2);position:relative;flex-shrink:0;transition:background .2s}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.srow.on .tg{background:var(--ac)}.srow.on .tg::after{left:21px}
+
+@keyframes sheetUp{from{transform:translateY(46px);opacity:0}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.modal:not([hidden]) .sheet{animation:sheetUp .3s cubic-bezier(.2,.9,.3,1)}
+.rc,.chip,.mrow{animation:in .35s both}
+.rc,.btn,.ibtn,.chip{transition:transform .15s,filter .15s}
+.rc:active,.chip:active{transform:scale(.97)}
+#who{cursor:pointer}
+.crown{display:inline-block;animation:pop .4s both}
+.mrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.mrow .nm{flex:1;font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow button{border:0;border-radius:12px;padding:8px 12px;font:700 13px inherit;font-family:inherit;color:#fff;background:rgba(255,255,255,.14);cursor:pointer;flex-shrink:0}
+.mrow button.pr{background:var(--grad)}
+.mrow button:active{transform:scale(.95)}
+
+/* --- полировка интерфейса --- */
+.emo{width:1.25em;height:1.25em;vertical-align:-.25em;display:inline-block;pointer-events:none;-webkit-user-drag:none}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;letter-spacing:-.01em}
+.btn{position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,filter .2s}
+@keyframes shine{40%,100%{transform:translateX(120%)}}
+.rc,.card,.rec,.act{border-radius:22px;transition:transform .2s cubic-bezier(.2,.9,.3,1),box-shadow .2s,border-color .2s}
+@media(hover:hover){.rc:hover,.rec:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.3);box-shadow:0 16px 38px rgba(0,0,0,.35),0 0 0 1px rgba(139,108,255,.25)}}
+.rc .th{border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+input[type=text],input[type=email],input[type=password],textarea{transition:border-color .2s,box-shadow .2s,background .2s}
+input:focus,textarea:focus{outline:none;border-color:rgba(139,108,255,.9)!important;box-shadow:0 0 0 4px rgba(139,108,255,.22)}
+.sheet{box-shadow:0 -14px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16)}
+.modal{transition:background .25s}
+#toast{animation:pop .35s both;box-shadow:0 12px 34px rgba(0,0,0,.45)}
+.chip{border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.06))}
+::-webkit-scrollbar{width:0;height:0}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* --- плавность и производительность --- */
+.aurora i,.aurora::before{animation:none!important;opacity:.78}
+#wrap{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.cur{transition:transform .11s linear;will-change:transform}
+.mk{transition:transform .25s ease-out}
+#reader img{backface-visibility:hidden}
+.chrow{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid rgba(255,255,255,.08);color:#fff;font-family:inherit;cursor:pointer}
+.chrow .nm{white-space:normal;font-size:15px}
+.chrow .mut{font-weight:500;font-size:12px;opacity:.7;margin-top:2px}
+.chcv{width:46px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;background:rgba(255,255,255,.08)}
+.chtabs{display:flex;gap:8px;margin:8px 0}
+.chtabs button{border:0;border-radius:999px;padding:7px 14px;font:700 13px inherit;font-family:inherit;color:#fff;background:rgba(255,255,255,.12);cursor:pointer}
+.chtabs button.on{background:var(--grad)}
+.chback{border:0;background:none;color:#cfc6ff;font:700 14px inherit;font-family:inherit;padding:6px 0;cursor:pointer}
+.chip .pg{opacity:.65;font-weight:600}
+#chPx{margin-top:16px}#chPx summary{color:#cfc6ff;font-weight:700;cursor:pointer;padding:8px 0}
+.aurora::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(to top,rgba(140,160,230,.14),rgba(140,160,230,0));pointer-events:none}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div>
+
+<div id="toast"></div>
+<div id="inv" hidden><span id="invTxt"></span><button class="tbtn on" id="invGo">Войти</button><button class="tbtn" id="invNo">Нет</button></div>
+
+<div id="entry"><div class="card">
+  <div class="logo"><svg viewBox="0 0 36 36"><defs><linearGradient id="lgm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b6cff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><rect width="36" height="36" rx="11" fill="url(#lgm1)" stroke="none"/><path d="M10 26.5l8-16 8 16M13.4 21h9.2" stroke="#fff" stroke-width="3"/><circle cx="28" cy="8.5" r="3.2" fill="#fff" stroke="none"/></svg>Avros</div>
+  <div id="authBox"><button class="btn g" id="btnGoogle"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h5.9a5.04 5.04 0 01-2.19 3.31v2.75h3.54c2.07-1.91 3.25-4.72 3.25-8.3z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.54-2.75c-.98.66-2.23 1.06-3.74 1.06-2.87 0-5.3-1.94-6.17-4.55H2.17v2.84A11 11 0 0012 23z"/><path fill="#FBBC05" d="M5.83 14.1a6.6 6.6 0 010-4.2V7.06H2.17a11 11 0 000 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 002.17 7.06l3.66 2.84C6.7 7.32 9.13 5.38 12 5.38z"/></svg>Войти через Google</button>
+    <div class="or">или почта и пароль</div>
+    <input type="email" id="em" placeholder="Почта" autocomplete="email">
+    <input type="password" id="pw" placeholder="Пароль" autocomplete="current-password" style="margin-top:8px">
+    <div class="two"><button class="btn" id="btnLogin">Войти</button><button class="btn ghost" id="btnReg">Регистрация</button></div>
+    <button class="lnk" id="btnReset">Забыл пароль</button>
+    <div class="or">или</div><button class="btn ghost" id="btnGuest" style="margin-top:0">Продолжить без аккаунта</button></div>
+</div></div>
+
+<div id="home">
+  <input type="text" id="nick" hidden>
+  <div class="htop">
+    <button class="hav" id="hAv" title="Профиль"></button>
+    <div class="hlogo"><svg viewBox="0 0 36 36"><defs><linearGradient id="lgm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b6cff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><rect width="36" height="36" rx="11" fill="url(#lgm2)" stroke="none"/><path d="M10 26.5l8-16 8 16M13.4 21h9.2" stroke="#fff" stroke-width="3"/><circle cx="28" cy="8.5" r="3.2" fill="#fff" stroke="none"/></svg>Avros</div>
+    <button class="ibtn" id="hFr" data-i="users" title="Друзья"><span class="bdg" hidden>0</span></button>
+  </div>
+  <div class="hscroll">
+    <div class="hsearch"><span data-i="search"></span><input type="text" id="hq" placeholder="Поиск комнат или код комнаты" autocomplete="off"></div>
+    <div class="acts">
+      <div class="act p" id="fab"><span data-i="plus"></span><b>Создать комнату</b></div>
+      <div class="act" id="codeCard"><span data-i="lock"></span><b>Войти по коду</b></div>
+    </div>
+    <div class="hh"><b>Друзья</b><button class="lnk2" id="addFr">Добавить</button></div>
+    <div class="frow" id="hfr"></div>
+    <div id="recWrap" hidden><div class="hh"><b>Продолжить чтение</b></div><div id="rec"></div></div>
+    <div class="hh"><b>Комнаты</b></div>
+    <div id="rooms"></div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="stage">
+    <div id="top">
+      <div class="tl"><button class="ibtn" id="btnLeave" data-i="x" title="Выйти"></button><button class="ibtn" id="btnSet" data-i="gear" title="Настройки"></button></div>
+      <div class="tlogo"><svg viewBox="0 0 36 36"><defs><linearGradient id="lgm3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b6cff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><rect width="36" height="36" rx="11" fill="url(#lgm3)" stroke="none"/><path d="M10 26.5l8-16 8 16M13.4 21h9.2" stroke="#fff" stroke-width="3"/><circle cx="28" cy="8.5" r="3.2" fill="#fff" stroke="none"/></svg>Avros</div>
+      <div class="tr"><button class="ibtn" id="btnFr2" data-i="users" title="Друзья"><span class="bdg" hidden>0</span></button></div>
+    </div>
+    <div id="whoBar"><div id="who"></div></div>
+    <div id="wrap"><div id="reader"><div id="marks"></div><div id="cursors"></div>
+      <div id="ph">Глава не выбрана<button class="btn" id="phUrl">Вставить ссылку на главу</button><button class="btn ghost" id="phImg">Файлы с телефона</button></div></div></div>
+    <div id="float"></div><div id="bubbles"></div>
+    <div id="info">
+      <div class="icv" id="icv"></div>
+      <div class="itx"><div class="it" id="iTitle">Без названия</div><div class="is" id="iSub">Загрузите главу</div></div>
+      <button class="ibtn" id="btnChat" data-i="msg" title="Чат"><span class="cbd" hidden>0</span></button>
+      <div class="prog" id="prog"><i id="progBar"></i></div>
+    </div>
+    <button class="rb" id="unhide" data-i="eye" title="Показать панели"></button>
+    <input type="file" id="fileInput" accept="image/*" multiple hidden>
+    <input type="file" id="zipInput" accept=".zip,.cbz,application/zip" hidden>
+  </div>
+  <div id="chat">
+    <div class="chd"><div class="grab"></div><div class="chrow"><span>Комната</span><span class="mut" id="cnt"></span><button class="ibtn" id="chatClose" data-i="x"></button></div></div>
+    <div class="cscroll" id="cscroll">
+      <div class="invrow"><span data-i="share"></span><span>Код комнаты:</span><a id="showCode" title="Скопировать ссылку-приглашение">----</a></div>
+      <div class="accq">Кто сможет присоединиться к этой комнате?</div>
+      <div class="accrow" id="accRow"><button data-a="public"><span data-i="globe"></span>Публичные</button><button data-a="friends"><span data-i="users"></span>Только друзья</button><button data-a="invite"><span data-i="lock"></span>По приглашению</button></div>
+      <div id="msgs"></div>
+    </div>
+    <div class="rxbar"><button class="rxb" data-q="❤️">❤️</button><button class="rxb" data-q="🔥">🔥</button><button class="rxb" data-q="😂">😂</button><button class="rxb" data-q="😳">😳</button><button class="rxb" data-q="😍">😍</button><button class="rxb" data-q="👍">👍</button></div>
+    <div id="emojis" hidden></div>
+    <div class="row"><button class="ibtn" id="emoBtn" data-i="smile" title="Эмодзи"></button><input type="text" id="msgInput" placeholder="Сообщение" maxlength="200"><button class="ibtn on" id="msgSend" data-i="send"></button></div>
+  </div>
+</div>
+
+<div class="modal" id="fr" hidden><div class="sheet">
+  <div class="hd"><span id="frTitle">Друзья</span><button class="ibtn" id="frClose" data-i="x"></button></div>
+  <div class="bd" id="frMain">
+    <div style="font-size:14px">Твой код друга: <b id="myCode" style="color:#c4b5fd;cursor:pointer;letter-spacing:1px"></b></div>
+    <div class="row" style="padding:10px 0"><input type="text" id="addCode" placeholder="Код друга" maxlength="6"><button class="tbtn on" id="addBtn">Добавить</button></div>
+    <div id="reqs"></div>
+    <div class="small">Друзья</div><div id="flist"></div>
+  </div>
+  <div id="dmBox" hidden style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div class="row"><button class="tbtn" id="dmBack">Назад</button><b id="dmName"></b></div>
+    <div id="dmmsgs"></div>
+    <div class="row"><input type="text" id="dmInput" placeholder="Сообщение" maxlength="300"><button class="ibtn on" id="dmSend" data-i="send"></button></div>
+  </div>
+</div></div>
+
+<div class="modal" id="pf" hidden><div class="sheet">
+  <div class="hd"><span>Профиль</span><button class="ibtn" id="pfClose" data-i="x"></button></div>
+  <div class="bd">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin:6px 0 10px">
+      <div id="pfAv"></div>
+      <div class="row" style="padding:0"><button class="tbtn on" id="pfPick">Загрузить фото</button><button class="tbtn" id="pfDel">Убрать</button></div>
+      <input type="file" id="pfFile" accept="image/*" hidden>
+    </div>
+    <div class="small">Ник</div><input type="text" id="pfNick" maxlength="16">
+    <div class="small">Цвет</div><div id="pfColors" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <div class="small">Аккаунт</div><div id="pfMail" style="font-size:14px"></div>
+    <div id="pfPassBox" hidden><div class="small">Новый пароль</div><div class="row" style="padding:0"><input type="password" id="pfPass" placeholder="Минимум 6 символов" autocomplete="new-password"><button class="tbtn" id="pfPassBtn">Сменить</button></div></div>
+    <button class="btn" id="pfSave">Сохранить</button>
+    <button class="btn ghost" id="btnOut">Сменить аккаунт</button>
+  </div>
+</div></div>
+
+<div class="modal" id="set" hidden><div class="sheet" style="height:auto;max-height:90%">
+  <div class="hd"><span>Настройки</span><button class="ibtn" id="setClose" data-i="x"></button></div>
+  <div class="bd">
+    <button class="srow" id="btnHide" data-close><span data-i="hide"></span><span class="st">Скрыть панели</span></button>
+    <div class="srow" style="cursor:default"><span data-i="zin"></span><span class="st">Размер страниц</span><button class="ibtn" id="zOut" data-i="zout"></button><button class="ibtn" id="zIn" data-i="zin"></button></div>
+    <button class="srow" id="btnNight"><span data-i="moon"></span><span class="st">Ночной режим</span><span class="tg"></span></button>
+    <button class="srow" id="btnChUrl" data-close><span data-i="globe"></span><span class="st">Сменить главу по ссылке</span></button>
+    <button class="srow" id="btnLoad" data-close><span data-i="image"></span><span class="st">Файлы с телефона</span></button>
+    <button class="srow" id="btnZip" data-close><span data-i="zip"></span><span class="st">Загрузить архив ZIP / CBZ</span></button>
+    <button class="srow" id="btnPf2" data-close><span data-i="user"></span><span class="st">Профиль</span></button>
+  </div>
+</div></div>
+
+<div class="modal" id="cr" hidden><div class="sheet" style="height:auto;max-height:92%">
+  <div class="hd"><span>Новая комната</span><button class="ibtn" id="crClose" data-i="x"></button></div>
+  <div class="bd">
+    <div class="small">Название манхвы</div><input type="text" id="crTitle" maxlength="60" placeholder="Например: Solo Leveling">
+    <div class="small">Ссылка на главу</div>
+    <div class="two" style="margin-bottom:8px"><button class="btn ghost" id="crGoogle" style="margin-top:0">Найти манхву</button><button class="btn ghost" id="crPaste" style="margin-top:0">Вставить</button></div>
+    <input type="text" id="crUrl" placeholder="https://..." autocomplete="off">
+    <div class="small">Кто сможет присоединиться</div>
+    <div class="accrow" id="crAccRow"><button data-a="public"><span data-i="globe"></span>Публичные</button><button data-a="friends"><span data-i="users"></span>Только друзья</button><button class="on" data-a="invite"><span data-i="lock"></span>По приглашению</button></div>
+    <button class="btn" id="crGo">Создать</button>
+  </div>
+</div></div>
+
+<div class="modal" id="ch" hidden><div class="sheet" style="height:88%">
+  <div class="hd"><span id="chTitle">Выбрать главу</span><button class="ibtn" id="chClose" data-i="x"></button></div>
+  <div class="bd" id="chBody">
+    <div id="chLink">
+      <input type="text" id="chUrl" placeholder="Вставь ссылку на главу" autocomplete="off">
+      <div class="two"><button class="btn ghost" id="chPaste">Вставить</button><button class="btn" id="chGo">Загрузить</button></div>
+    </div>
+    <div class="chtabs" id="chProv"><button data-p="rm">ReManga</button><button data-p="md">MangaDex</button></div>
+    <input type="text" id="chQ" placeholder="Название манхвы" autocomplete="off">
+    <div id="chSt"></div>
+    <div id="chList"></div>
+    <details id="chPx"><summary>Свой сервер (необязательно)</summary>
+      <input type="text" id="pxUrl" placeholder="https://avros-proxy.имя.workers.dev" autocomplete="off">
+      <button class="btn ghost" id="pxSave">Сохранить и проверить</button>
+    </details>
+  </div>
+</div></div>
+
+<div class="modal" id="mem" hidden><div class="sheet" style="height:auto;max-height:80%">
+  <div class="hd"><span>Кто в комнате</span><button class="ibtn" id="memClose" data-i="x"></button></div>
+  <div class="bd" id="memList"></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+/* ═══════════ ВСТАВЬ СВОЙ firebaseConfig ЗДЕСЬ ═══════════ */
+const firebaseConfig = {
+  apiKey: "AIzaSyA0sj6T7YuKwJil5hrrkEv3zXfc_rcEA2o",
+  authDomain: "avros-9ea1e.firebaseapp.com",
+  databaseURL: "https://avros-9ea1e-default-rtdb.firebaseio.com",
+  projectId: "avros-9ea1e",
+  storageBucket: "avros-9ea1e.firebasestorage.app",
+  messagingSenderId: "966904940225",
+  appId: "1:966904940225:web:378f7960a0cb5e75977640"
+};
+/* ══════════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+
+const ICON = {
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+  zip:'<path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>',
+  globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>',
+  hide:'<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>',
+  eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+  pointer:'<path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>',
+  crown:'<path d="M3 18h18M3 18L2 7l6 4 4-7 4 7 6-4-1 11"/>',
+  image:'<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+  zin:'<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/>',
+  zout:'<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M8 11h6"/>',
+  moon:'<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>',
+  msg:'<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>',
+  out:'<path d="M15 18l-6-6 6-6"/>',
+  user:'<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  users:'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>',
+  x:'<path d="M18 6L6 18M6 6l12 12"/>',
+  send:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>',
+  heart:'<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/>',
+  fire:'<path d="M12 22c4 0 7-3 7-7 0-3-2-5-3-7-1 2-2 3-3 3 0-4-1-7-4-9 0 4-4 6-4 12 0 4 3 8 7 8z"/>',
+  smile:'<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>',
+  star:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>'
+};
+const RXC = {heart:"#fb7185", fire:"#fb923c", smile:"#fbbf24", star:"#a78bfa"};
+const svg = k => '<svg viewBox="0 0 24 24">'+ICON[k]+'</svg>';
+document.querySelectorAll("[data-i]").forEach(b => b.insertAdjacentHTML("afterbegin", svg(b.dataset.i)));
+function addMsg(box, m){
+  const me = m.by === uid, row = el("div","m"+(me ? " me" : "")+(m.rx ? " rx" : ""));
+  const av = mkAv(m.name, m.color, m.by ? photoOf(m.by) : "", 36), b = el("div","mb");
+  if(!me){ const n = el("div","nm",m.name); n.style.color = m.color; b.append(n); }
+  b.append(el("div","tx",m.text)); row.append(av, b); box.append(row);
+  const sc = $("cscroll"); sc.scrollTop = sc.scrollHeight; return m.rx ? m.text : null;
+}
+function addSys(t){ $("msgs").append(el("div","sys",t)); const sc = $("cscroll"); sc.scrollTop = sc.scrollHeight; }
+let chatUnread = 0;
+function setCbd(){ const b = document.querySelector(".cbd"); b.textContent = chatUnread; b.hidden = !chatUnread; }
+const chatVisible = () => innerWidth >= 900 || $("chat").classList.contains("open");
+function floatRx(e){
+  const f = el("div","fl",e); f.style.left = (8+Math.random()*70)+"%"; $("float").append(f); setTimeout(() => f.remove(), 2700);
+}
+function bubble(m){
+  const b = el("div","bub"), n = el("b",null,m.name+" "); n.style.color = m.color; b.append(n, document.createTextNode(m.text));
+  const box = $("bubbles"); box.append(b); while(box.children.length > 3) box.firstChild.remove(); setTimeout(() => b.remove(), 4500);
+}
+const LS = (()=>{try{localStorage.setItem("t","1");return localStorage}catch(e){return {}}})();
+const configured = firebaseConfig.apiKey !== "PASTE";
+let db, auth;
+if(configured){ firebase.initializeApp(firebaseConfig); db = firebase.database(); auth = firebase.auth(); }
+
+/* ---------- постоянная личность (без паролей) ---------- */
+let uid = null, myCode = "", authUser = null, myPhoto = "";
+const photos = {};
+const COLORS = ["#8b5cf6","#ec4899","#f59e0b","#10b981","#38bdf8","#fb7185","#a3e635","#22d3ee","#e879f9","#f97316"];
+if(!LS.color) LS.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+let myColor = LS.color;
+let myName = "", booted = false, bootTs = Date.now();
+let friends = {}, finfo = {}, reqs = {}, watched = {}, unread = 0, dmWith = null, dmRef = null;
+let roomRef = null, roomCode = "", peers = {}, hostId = null, hostMode = false, meta = {};
+let follow = true, lastLocal = 0, applying = false, lastRemote = null, zoom = 1, lastC = 0, tmr = null;
+
+const PHOTO_RE = /^(data:image\/jpeg;base64,[A-Za-z0-9+\/=]+|https:\/\/[^\s"'()]+)$/;
+function mkAv(name, color, photo, size){
+  const a = el("div","av",""); a.style.background = color || "#555";
+  if(photo && PHOTO_RE.test(photo)){ a.style.backgroundImage = 'url("'+photo+'")'; a.style.backgroundSize = "cover"; a.style.backgroundPosition = "center"; }
+  else a.textContent = (name || "?")[0].toUpperCase();
+  if(size){ a.style.width = a.style.height = size+"px"; a.style.fontSize = Math.round(size*.42)+"px"; }
+  return a;
+}
+function photoOf(k){
+  if(k === uid) return myPhoto;
+  if(!(k in photos)){ photos[k] = ""; db.ref("users/"+k+"/photo").on("value", s => { photos[k] = s.val() || ""; renderWho(); }); }
+  return photos[k];
+}
+function authErr(e){
+  const m = {"auth/invalid-credential":"Неверная почта или пароль","auth/wrong-password":"Неверная почта или пароль","auth/user-not-found":"Аккаунт не найден","auth/email-already-in-use":"Эта почта уже зарегистрирована","auth/weak-password":"Пароль слишком короткий (от 6 символов)","auth/invalid-email":"Некорректная почта","auth/too-many-requests":"Слишком много попыток, подожди немного","auth/network-request-failed":"Нет сети","auth/requires-recent-login":"Для смены пароля войди заново","auth/operation-not-allowed":"Этот способ входа не включён в Firebase"};
+  return m[e.code] || ("Ошибка: "+(e.code || e.message));
+}
+function toast(t){ const e=$("toast"); e.textContent=t; e.style.display="block"; clearTimeout(e._t); e._t=setTimeout(()=>e.style.display="none",2200); }
+function el(tag, cls, txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+const pairId = f => [uid,f].sort().join("_");
+const pairRoom = f => [uid.slice(0,6),f.slice(0,6)].sort().join("").toUpperCase();
+
+function ensureBoot(){
+  if(!configured){ alert("Сначала вставь свой firebaseConfig в файл (блок в начале скрипта)"); return false; }
+  if(!uid){ toast("Сначала войди в аккаунт"); return false; }
+  const n = $("nick").value.trim() || LS.nick || "Гость";
+  if(!n){ toast("Введи ник"); return false; }
+  myName = n; LS.nick = n; $("nick").value = n; refreshHome();
+  if(!booted){ booted = true; boot(); } else db.ref("users/"+uid+"/name").set(n);
+  return true;
+}
+
+function boot(){
+  const u = db.ref("users/"+uid);
+  u.update({name:myName, color:myColor, code:myCode});
+  db.ref("codes/"+myCode).set(uid);
+  db.ref(".info/connected").on("value", s => { if(s.val()){ u.child("online").onDisconnect().set(false); u.child("online").set(true); } });
+  $("myCode").textContent = myCode;
+  u.child("photo").on("value", s => { myPhoto = s.val() || ""; renderWho(); });
+  watchPublic();
+  if(authUser && authUser.photoURL) u.child("photo").transaction(c => c === null ? authUser.photoURL : undefined);
+  db.ref("friends/"+uid).on("value", s => { friends = s.val() || {}; Object.keys(friends).forEach(watchFriend); renderFriends(); renderRooms(); });
+  db.ref("requests/"+uid).on("value", s => { reqs = s.val() || {}; renderFriends(); if(Object.keys(reqs).length) bump(); });
+  db.ref("invites/"+uid).on("child_added", s => {
+    const v = s.val(), code = s.key;
+    if(!v || Date.now()-v.ts > 600000){ s.ref.remove(); return; }
+    $("invTxt").textContent = v.name+" зовёт читать вместе";
+    $("inv").hidden = false;
+    $("invGo").onclick = () => { s.ref.remove(); $("inv").hidden = true; if(!roomRef) enterRoom(code); else location.href = location.pathname+"?room="+code; };
+    $("invNo").onclick = () => { s.ref.remove(); $("inv").hidden = true; };
+  });
+}
+
+function watchFriend(f){
+  if(watched[f]) return; watched[f] = true;
+  db.ref("users/"+f).on("value", s => { finfo[f] = s.val() || {}; renderFriends(); });
+  db.ref("dm/"+pairId(f)).limitToLast(1).on("child_added", s => {
+    const m = s.val();
+    if(!m || m.from === uid || m.ts < bootTs) return;
+    if(dmWith === f && !$("fr").hidden) return;
+    toast(m.name+": "+m.text); bump();
+  });
+}
+function setBadge(){ document.querySelectorAll(".bdg").forEach(b => { b.textContent = unread; b.hidden = !unread; }); }
+function bump(){ if($("fr").hidden){ unread++; setBadge(); } }
+
+/* ---------- друзья ---------- */
+function openFriends(){ if(!ensureBoot()) return; $("fr").hidden = false; unread = 0; setBadge(); closeDM(); renderFriends(); }
+function closeDM(){ dmWith = null; if(dmRef){ dmRef.off(); dmRef = null; } $("dmBox").hidden = true; $("frMain").hidden = false; $("frTitle").textContent = "Друзья"; }
+function renderFriends(){
+  renderHomeFriends();
+  const rq = $("reqs"); rq.innerHTML = "";
+  Object.entries(reqs).forEach(([f,v]) => {
+    const r = el("div","fr"); r.append(el("span","nm",v.name+" хочет добавить тебя"));
+    const ok = el("button","tbtn on","Принять"); ok.onclick = () => acceptReq(f);
+    const no = el("button","tbtn","Нет"); no.onclick = () => db.ref("requests/"+uid+"/"+f).remove();
+    r.append(ok,no); rq.append(r);
+  });
+  const fl = $("flist"); fl.innerHTML = "";
+  const ids = Object.keys(friends);
+  if(!ids.length) fl.append(el("div","small","Пока пусто — обменяйтесь кодами друга"));
+  ids.forEach(f => {
+    const i = finfo[f] || {}, r = el("div","fr");
+    r.append(mkAv(i.name, i.color, i.photo, 34), el("span","nm",i.name||"…"), el("span","dotc"+(i.online?" on":"")));
+    const dm = el("button","tbtn","Написать"); dm.onclick = () => openDM(f);
+    const rd = el("button","tbtn on","Читать"); rd.title = "Читать вместе"; rd.onclick = () => { $("fr").hidden = true; goRoom(pairRoom(f)); };
+    r.append(dm, rd);
+    if(roomRef){ const iv = el("button","tbtn","Позвать"); iv.title = "Позвать в эту комнату"; iv.onclick = () => { db.ref("invites/"+f+"/"+roomCode).set({name:myName, ts:Date.now()}); toast("Приглашение отправлено"); }; r.append(iv); }
+    fl.append(r);
+  });
+}
+function acceptReq(f){
+  db.ref().update({["friends/"+uid+"/"+f]:true, ["friends/"+f+"/"+uid]:true, ["requests/"+uid+"/"+f]:null});
+  toast("Теперь вы друзья");
+}
+async function addFriend(){
+  const c = $("addCode").value.trim().toUpperCase(); if(!c) return;
+  if(c === myCode) return toast("Это твой код");
+  const s = await db.ref("codes/"+c).get();
+  if(!s.exists()) return toast("Код не найден");
+  const f = s.val();
+  if(friends[f]) return toast("Вы уже друзья");
+  if(reqs[f]) return acceptReq(f);
+  await db.ref("requests/"+f+"/"+uid).set({name:myName, ts:Date.now()});
+  $("addCode").value = ""; toast("Заявка отправлена");
+}
+function openDM(f){
+  dmWith = f; $("frMain").hidden = true; $("dmBox").hidden = false;
+  $("dmName").textContent = (finfo[f]||{}).name || ""; $("dmmsgs").innerHTML = "";
+  dmRef = db.ref("dm/"+pairId(f)).limitToLast(60);
+  dmRef.on("child_added", s => {
+    const m = s.val(), d = el("div","msg"), b = el("b",null,m.name); b.style.color = m.from===uid ? myColor : ((finfo[f]||{}).color||"#fff");
+    d.append(b, document.createTextNode(": "+m.text)); const box = $("dmmsgs"); box.append(d); box.scrollTop = box.scrollHeight;
+  });
+}
+function sendDM(){
+  const i = $("dmInput"), t = i.value.trim(); if(!t || !dmWith) return;
+  db.ref("dm/"+pairId(dmWith)).push({from:uid, name:myName, text:t, ts:Date.now()}); i.value = "";
+}
+
+/* ---------- комната ---------- */
+function goRoom(code){ if(roomRef){ location.href = location.pathname+"?room="+code; } else enterRoom(code); }
+function genCode(){ return Math.random().toString(36).slice(2,8).toUpperCase(); }
+
+function enterRoom(code, opts){
+  opts = opts || {};
+  if(!ensureBoot()) return;
+  roomCode = code; LS.lastRoom = code; roomRef = db.ref("rooms/"+code);
+  $("entry").style.display = "none"; $("home").style.display = "none"; $("app").style.display = "flex"; document.body.classList.add("inroom"); $("showCode").textContent = code;
+  $("showCode").onclick = () => { const link = location.origin+location.pathname+"?room="+code; (navigator.clipboard?navigator.clipboard.writeText(link):Promise.reject()).then(()=>toast("Ссылка-приглашение скопирована"),()=>prompt("Ссылка:",link)); };
+  const me = roomRef.child("users/"+uid);
+  me.set({name:myName, color:myColor, page:0, n:0}); me.onDisconnect().remove();
+  roomRef.child("cursors/"+uid).onDisconnect().remove();
+  claimHost();
+  if(opts.create) roomRef.child("meta").set({title:opts.title || "", access:opts.access || "invite", by:uid});
+  roomRef.child("meta").on("value", s => {
+    meta = s.val() || {};
+    const acc = meta.access || (meta.public ? "public" : "invite");
+    $("iTitle").textContent = meta.title || "Без названия";
+    document.querySelectorAll("#accRow button").forEach(b => b.classList.toggle("on", b.dataset.a === acc));
+    if(meta.by === uid) syncListing(acc);
+    else if(acc !== "invite"){ const mm = db.ref("publicRooms/"+roomCode+"/members/"+uid); mm.set({name:myName, color:myColor}); mm.onDisconnect().remove(); }
+  });
+  let chTs = 0;
+  roomRef.child("chapter").on("value", s => {
+    const c = s.val(); if(!c || !Array.isArray(c.imgs) || c.ts === chTs) return; chTs = c.ts;
+    const list = c.imgs.filter(u => typeof u === "string" && /^https:\/\//.test(u) && u.length < 2000).slice(0, 400);
+    if(list.length) loadImages(list);
+  });
+  roomRef.child("host").on("value", s => { hostId = s.val(); if(hostId === uid) roomRef.child("host").onDisconnect().remove(); updMode(); renderWho(); if(!$("mem").hidden) renderMem(); });
+  
+  roomRef.child("users").on("value", s => { peers = s.val() || {}; renderWho(); $("cnt").textContent = Object.keys(peers).length+" в комнате"; });
+  let sysReady = false;
+  roomRef.child("users").on("child_added", s => { if(sysReady && s.key !== uid) addSys((s.val().name || "Кто-то")+" присоединился"); });
+  roomRef.child("users").on("child_removed", s => { if(s.key !== uid) addSys((s.val().name || "Кто-то")+" вышел"); });
+  roomRef.child("users").once("value", () => { sysReady = true; addSys(myName+" присоединился"); });
+  roomRef.child("scroll").on("value", s => {
+    const v = s.val(); if(!v) return; lastRemote = v;
+    if(shouldFollow(v)) setPos(v.p, v.o);
+  });
+  roomRef.child("chat").limitToLast(50).on("child_added", s => {
+    const m = s.val(), rx = addMsg($("msgs"), m), fresh = Date.now()-m.ts < 6000;
+    if(rx && fresh) floatRx(rx);
+    if(fresh && m.by !== uid && !chatVisible()){ chatUnread++; setCbd(); if(!rx) bubble(m); }
+  });
+  roomRef.child("cursors").on("value", s => {
+    const layer = $("cursors"), data = s.val() || {};
+    Object.entries(data).forEach(([k,v]) => {
+      if(k === uid) return;
+      let c = layer.querySelector('[data-k="'+k+'"]');
+      if(!c){ c = el("div","cur"); c.dataset.k = k; c.append(el("div","dot"), el("div","tag")); layer.append(c); }
+      const p = peers[k] || {};
+      c.querySelector(".dot").style.background = c.querySelector(".tag").style.background = p.color || "#fff";
+      c.querySelector(".tag").textContent = p.name || "";
+      c._x = v.x; c._y = v.y; placeCursor(c); c._seen = Date.now(); c.hidden = false;
+    });
+    [...layer.children].forEach(c => { if(!data[c.dataset.k]) c.remove(); });
+  });
+  setInterval(() => document.querySelectorAll(".cur").forEach(c => { if(Date.now()-(c._seen||0) > 6000) c.hidden = true; }), 2000);
+  sizeReader();
+}
+function syncListing(acc){
+  const r = db.ref("publicRooms/"+roomCode);
+  if(acc === "invite"){ r.remove(); return; }
+  r.update({title:meta.title || "Без названия", host:myName, by:uid, access:acc, ts:Date.now()});
+  const mm = r.child("members/"+uid); mm.set({name:myName, color:myColor});
+}
+function claimHost(){
+  roomRef.child("host").transaction(h => h || uid, (err, ok, snap) => {
+    if(!err && ok && snap.val() === uid) roomRef.child("host").onDisconnect().remove();
+  });
+}
+const driving = () => !(hostId && hostMode) || hostId === uid;
+const shouldFollow = v => v.by !== uid && Date.now()-lastLocal > 700;
+function updMode(){}
+let whoSig = "";
+function renderWho(){
+  refreshHome(); renderMarks();
+  const ent = Object.entries(peers);
+  const sig = JSON.stringify([hostId, ent.map(([k,v]) => { const ph = photoOf(k) || ""; return [k, v.name, v.color, v.page, v.n, ph.length, ph.slice(-12)]; })]);
+  if(sig === whoSig) return; whoSig = sig;
+  const w = $("who"); w.innerHTML = "";
+  ent.forEach(([k,v]) => {
+    const c = el("div","chip"), a = mkAv(v.name, v.color, photoOf(k));
+    c.append(a, el("span",null,(k===hostId?"👑 ":"")+(v.name||"Без имени")+(k===uid?" (ты)":"")), el("span","pg",v.n ? " · "+v.page : ""));
+    w.append(c);
+  });
+}
+
+/* ---------- позиция чтения: страница + доля внутри страницы ---------- */
+const wrap = $("wrap"), reader = $("reader");
+const imgs = () => reader.querySelectorAll("img");
+function getPos(){
+  const list = imgs(); if(!list.length) return null;
+  const y = wrap.scrollTop - reader.offsetTop; let i = 0;
+  for(let k=0;k<list.length;k++){ if(list[k].offsetTop <= y) i = k; else break; }
+  const im = list[i];
+  return {p:i, o:Math.max(0,Math.min(1,(y-im.offsetTop)/(im.offsetHeight||1))), n:list.length};
+}
+let scAnim = 0;
+function setPos(p, o){
+  const list = imgs(), im = list[Math.min(p, list.length-1)]; if(!im) return;
+  const target = reader.offsetTop + im.offsetTop + o*im.offsetHeight, from = wrap.scrollTop, d = target-from;
+  cancelAnimationFrame(scAnim); applying = true;
+  const done = () => { applying = false; updPage(); };
+  if(Math.abs(d) < 2){ done(); return; }
+  if(Math.abs(d) > wrap.clientHeight*2.5){ wrap.scrollTop = target; setTimeout(done, 150); return; }
+  const t0 = performance.now(), dur = 280;
+  const step = now => { const k = Math.min(1, (now-t0)/dur), e = 1-Math.pow(1-k, 3); wrap.scrollTop = from + d*e; if(k < 1) scAnim = requestAnimationFrame(step); else setTimeout(done, 60); };
+  scAnim = requestAnimationFrame(step);
+}
+wrap.addEventListener("touchstart", () => { cancelAnimationFrame(scAnim); applying = false; }, {passive:true});
+function updInfo(g){
+  if(!g) return;
+  $("iSub").textContent = "Стр. "+(g.p+1)+" из "+g.n; $("progBar").style.width = Math.min(100, (g.p+g.o)/g.n*100)+"%";
+}
+function pushPos(){
+  const g = getPos(); if(!g || !roomRef) return;
+  const u = {}; u["users/"+uid+"/page"] = g.p+1; u["users/"+uid+"/n"] = g.n; u["users/"+uid+"/p"] = g.p; u["users/"+uid+"/o"] = g.o;
+  if(driving()) u.scroll = {p:g.p, o:g.o, by:uid, ts:Date.now()};
+  roomRef.update(u); updInfo(g);
+}
+function updPage(){
+  const g = getPos(); if(!g || !roomRef) return;
+  roomRef.child("users/"+uid).update({page:g.p+1, n:g.n, p:g.p, o:g.o}); updInfo(g);
+}
+const markEls = {};
+function renderMarks(){
+  const layer = $("marks"), list = imgs(), live = {};
+  if(list.length) Object.entries(peers).forEach(([k,v]) => {
+    if(k === uid || !v.n || v.p == null) return;
+    const im = list[Math.min(v.p, list.length-1)]; if(!im) return;
+    live[k] = 1;
+    let m = markEls[k];
+    if(!m){ m = markEls[k] = el("div","mk"); m.append(el("span")); layer.append(m); }
+    const t = m.firstChild; m.style.background = t.style.background = v.color; if(t.textContent !== v.name) t.textContent = v.name;
+    m.style.transform = "translate3d(0,"+(im.offsetTop + (v.o||0)*im.offsetHeight)+"px,0)";
+  });
+  Object.keys(markEls).forEach(k => { if(!live[k]){ markEls[k].remove(); delete markEls[k]; } });
+}
+function placeCursor(c){ c.style.transform = "translate3d("+(c._x*reader.clientWidth)+"px,"+(c._y*reader.clientHeight)+"px,0)"; }
+function placeCursors(){ document.querySelectorAll(".cur").forEach(placeCursor); }
+wrap.addEventListener("scroll", () => {
+  if(applying) return; lastLocal = Date.now();
+  if(!roomRef || tmr) return;
+  tmr = setTimeout(() => { tmr = null; pushPos(); }, 150);
+});
+
+/* ---------- указка (координаты в долях страницы чтения) ---------- */
+function sendCursor(e){
+  if(!roomRef) return; const now = Date.now(); if(now-lastC < 90) return; lastC = now;
+  const r = reader.getBoundingClientRect(), x = (e.clientX-r.left)/r.width, y = (e.clientY-r.top)/r.height;
+  if(x<0 || x>1 || y<0 || y>1) return;
+  roomRef.child("cursors/"+uid).set({x, y});
+}
+wrap.addEventListener("pointermove", sendCursor);
+wrap.addEventListener("pointerdown", sendCursor);
+
+/* ---------- загрузка главы / зум / ночь ---------- */
+$("btnLoad").onclick = () => $("fileInput").click();
+function loadImages(blobs){
+  if(!blobs.length) return toast("Картинки не найдены");
+  imgs().forEach(i => { if(i.src.startsWith("blob:")) URL.revokeObjectURL(i.src); i.remove(); });
+  const ph = $("ph"); if(ph) ph.remove();
+  let loaded = 0;
+  const done = () => { if(++loaded === blobs.length){ renderMarks(); placeCursors(); if(lastRemote && shouldFollow(lastRemote)) setPos(lastRemote.p, lastRemote.o); else updPage(); } };
+  blobs.forEach(f => { const im = new Image(); im.draggable = false; im.onload = done; im.onerror = () => { if(!im._r && typeof f === "string"){ im._r = 1; im.src = "https://wsrv.nl/?url="+encodeURIComponent(f.replace(/^https?:\/\//, "")); } else done(); }; im.decoding = "async"; im.referrerPolicy = "no-referrer"; im.src = typeof f === "string" ? f : URL.createObjectURL(f); reader.append(im); });
+  toast("Глава загружена: "+blobs.length+" стр.");
+  localCover(blobs[0]);
+  if(meta.by === uid && (meta.access || "invite") !== "invite") makeCover(blobs[0]);
+}
+function makeCover(b){
+  if(typeof b === "string"){ db.ref("publicRooms/"+roomCode+"/cover").set(b); return; }
+  const im = new Image();
+  im.onload = () => {
+    const c = document.createElement("canvas"); c.width = 160; c.height = 120;
+    c.getContext("2d").drawImage(im, 0, 0, im.width, Math.min(im.height, im.width*.75), 0, 0, 160, 120);
+    URL.revokeObjectURL(im.src); db.ref("publicRooms/"+roomCode+"/cover").set(c.toDataURL("image/jpeg",.6));
+  };
+  im.src = URL.createObjectURL(b);
+}
+$("fileInput").addEventListener("change", e => {
+  const files = [...e.target.files].filter(f => f.type.startsWith("image/")).sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true}));
+  e.target.value = ""; loadImages(files);
+});
+$("zipInput").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = ""; if(!f) return;
+  if(typeof JSZip === "undefined") return toast("Не загрузилась библиотека ZIP, проверь интернет");
+  toast("Распаковываю...");
+  try{
+    const z = await JSZip.loadAsync(f);
+    const names = Object.keys(z.files).filter(n => !z.files[n].dir && /\.(jpe?g|png|webp|gif|avif)$/i.test(n) && n.indexOf("__MACOSX") < 0).sort((a,b) => a.localeCompare(b, undefined, {numeric:true}));
+    const blobs = [];
+    for(const n of names){ const b = await z.files[n].async("blob"); blobs.push(new Blob([b], {type: /\.png$/i.test(n) ? "image/png" : /\.webp$/i.test(n) ? "image/webp" : "image/jpeg"})); }
+    loadImages(blobs);
+  }catch(err){ toast("Не удалось открыть архив"); }
+});
+$("btnZip").onclick = () => $("zipInput").click();
+function sizeReader(){ reader.style.width = Math.min(wrap.clientWidth, 720)*zoom + "px"; requestAnimationFrame(() => { renderMarks(); placeCursors(); }); }
+function setZoom(z){ const g = getPos(); zoom = Math.max(.6, Math.min(2.2, z)); sizeReader(); if(g) setPos(g.p, g.o); }
+$("zIn").onclick = () => setZoom(zoom+.2); $("zOut").onclick = () => setZoom(zoom-.2);
+window.addEventListener("resize", sizeReader);
+function applyNight(){ document.body.classList.toggle("night", LS.night==="1"); $("btnNight").classList.toggle("on", LS.night==="1"); }
+$("btnNight").onclick = () => { LS.night = LS.night==="1" ? "0" : "1"; applyNight(); };
+applyNight();
+
+/* ---------- чат комнаты ---------- */
+function say(t, rx){ if(roomRef && t) roomRef.child("chat").push({name:myName, color:myColor, text:t, by:uid, ts:Date.now(), rx:!!rx}); }
+$("msgSend").onclick = () => { const i = $("msgInput"); say(i.value.trim()); i.value = ""; };
+$("msgInput").addEventListener("keydown", e => { if(e.key==="Enter") $("msgSend").click(); });
+document.querySelectorAll("[data-q]").forEach(b => b.onclick = () => say(b.dataset.q, true));
+$("btnChat").onclick = () => { $("chat").classList.toggle("open"); chatUnread = 0; setCbd(); const sc = $("cscroll"); sc.scrollTop = sc.scrollHeight; };
+$("chatClose").onclick = () => $("chat").classList.remove("open");
+
+/* ---------- кнопки ---------- */
+$("btnFr2").onclick = $("hFr").onclick = openFriends;
+$("frClose").onclick = () => { $("fr").hidden = true; closeDM(); };
+$("addBtn").onclick = addFriend;
+$("addCode").addEventListener("keydown", e => { if(e.key==="Enter") addFriend(); });
+$("myCode").onclick = () => { navigator.clipboard && navigator.clipboard.writeText(myCode); toast("Код скопирован: "+myCode); };
+$("dmBack").onclick = closeDM;
+$("dmSend").onclick = sendDM;
+$("dmInput").addEventListener("keydown", e => { if(e.key==="Enter") sendDM(); });
+$("btnLeave").onclick = () => {
+  const done = () => { location.href = location.pathname; };
+  if(roomRef && (meta.access || "invite") !== "invite"){ const pr = db.ref("publicRooms/"+roomCode); pr.child("members/"+uid).remove().then(()=>pr.child("members").once("value")).then(ms => { if(!ms.exists()) pr.remove(); }).catch(()=>{}); }
+  if(roomRef) roomRef.child("users/"+uid).remove().then(()=>roomRef.child("cursors/"+uid).remove()).then(()=>hostId===uid?roomRef.child("host").remove():0).then(done, done); else done();
+};
+
+/* ---------- старт: сохранённый ник + ссылка-приглашение ---------- */
+if(LS.nick) $("nick").value = LS.nick;
+const qRoom = new URLSearchParams(location.search).get("room");
+let started = false;
+function showAuth(on){ $("entry").style.display = on ? "flex" : "none"; if($("app").style.display !== "flex") $("home").style.display = on ? "none" : "flex"; if(!on) refreshHome(); }
+$("btnGoogle").onclick = async () => {
+  if(!configured) return alert("Сначала вставь свой firebaseConfig в файл");
+  if(location.protocol === "file:") return alert("Вход через Google работает только когда сайт открыт по ссылке (https://...), а не как файл. Выложи avros.html на хостинг, например GitHub Pages.");
+  const prov = new firebase.auth.GoogleAuthProvider();
+  try{ await auth.signInWithPopup(prov); }
+  catch(e){
+    if(e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") auth.signInWithRedirect(prov);
+    else if(e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") toast("Не удалось войти: "+(e.code || e.message));
+  }
+};
+$("btnGuest").onclick = () => {
+  if(!configured) return alert("Сначала вставь свой firebaseConfig в файл");
+  auth.signInAnonymously().catch(e => toast("Не удалось войти: "+(e.code || e.message)));
+};
+$("btnOut").onclick = () => auth.signOut().then(() => { location.href = location.pathname; });
+if(configured){
+  auth.onAuthStateChanged(u => {
+    if(!u){ uid = null; authUser = null; showAuth(true); return; }
+    authUser = u; uid = u.uid; myCode = uid.slice(0,6).toUpperCase(); showAuth(false);
+    $("btnOut").textContent = u.isAnonymous ? "Войти через другой аккаунт" : "Сменить аккаунт"+(u.email ? " ("+u.email+")" : "");
+    if(!LS.nick && !$("nick").value){ const g = u.displayName ? u.displayName.split(" ")[0] : (u.email ? u.email.split("@")[0] : "Гость"); $("nick").value = g.slice(0,16); }
+    if(started) return; started = true;
+    if($("nick").value.trim()){ if(qRoom) enterRoom(qRoom.toUpperCase()); else ensureBoot(); }
+  });
+} else showAuth(true);
+
+/* ---------- почта и пароль ---------- */
+function emailAuth(reg){
+  if(!configured) return alert("Сначала вставь свой firebaseConfig в файл");
+  const e = $("em").value.trim(), p = $("pw").value;
+  if(!e || !p) return toast("Введи почту и пароль");
+  (reg ? auth.createUserWithEmailAndPassword(e,p) : auth.signInWithEmailAndPassword(e,p)).catch(x => toast(authErr(x)));
+}
+$("btnLogin").onclick = () => emailAuth(false);
+$("btnReg").onclick = () => emailAuth(true);
+$("pw").addEventListener("keydown", e => { if(e.key === "Enter") emailAuth(false); });
+$("btnReset").onclick = () => {
+  const e = $("em").value.trim(); if(!e) return toast("Введи почту выше");
+  auth.sendPasswordResetEmail(e).then(() => toast("Письмо для сброса пароля отправлено"), x => toast(authErr(x)));
+};
+
+/* ---------- профиль ---------- */
+let pfPhoto, pfColor;
+function drawPf(){
+  const a = mkAv($("pfNick").value || "?", pfColor, pfPhoto !== undefined ? pfPhoto : myPhoto, 96); a.id = "pfAv"; $("pfAv").replaceWith(a);
+  const box = $("pfColors"); box.innerHTML = "";
+  COLORS.forEach(c => {
+    const b = el("button"); b.style.cssText = "width:32px;height:32px;border-radius:50%;cursor:pointer;background:"+c+";border:3px solid "+(c === pfColor ? "#fff" : "transparent");
+    b.onclick = () => { pfColor = c; drawPf(); }; box.append(b);
+  });
+}
+function openProfile(){
+  if(!uid){ toast("Сначала войди в аккаунт"); return; }
+  pfPhoto = undefined; pfColor = myColor; $("pfNick").value = myName || $("nick").value.trim() || LS.nick || ""; drawPf();
+  $("pfMail").textContent = authUser.isAnonymous ? "Без аккаунта (данные только в этом браузере)" : (authUser.email || "Вход через Google");
+  $("pfPassBox").hidden = !authUser.providerData.some(p => p.providerId === "password"); $("pfPass").value = "";
+  $("pf").hidden = false;
+}
+function fileToAvatar(f){
+  return new Promise(res => {
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement("canvas"), S = 128, m = Math.min(im.width, im.height); c.width = c.height = S;
+      c.getContext("2d").drawImage(im, (im.width-m)/2, (im.height-m)/2, m, m, 0, 0, S, S);
+      URL.revokeObjectURL(im.src); res(c.toDataURL("image/jpeg", .8));
+    };
+    im.onerror = () => res(null); im.src = URL.createObjectURL(f);
+  });
+}
+$("pfPick").onclick = () => $("pfFile").click();
+$("pfFile").addEventListener("change", async e => { const f = e.target.files[0]; e.target.value = ""; if(!f) return; const d = await fileToAvatar(f); if(!d) return toast("Не удалось открыть картинку"); pfPhoto = d; drawPf(); });
+$("pfDel").onclick = () => { pfPhoto = ""; drawPf(); };
+$("pfClose").onclick = () => { $("pf").hidden = true; };
+$("pfPassBtn").onclick = () => {
+  const v = $("pfPass").value; if(v.length < 6) return toast("Пароль: минимум 6 символов");
+  authUser.updatePassword(v).then(() => { $("pfPass").value = ""; toast("Пароль изменён"); }, x => toast(authErr(x)));
+};
+$("pfSave").onclick = () => {
+  const n = $("pfNick").value.trim(); if(!n) return toast("Введи ник");
+  myName = n; LS.nick = n; $("nick").value = n; myColor = pfColor; LS.color = myColor;
+  if(!ensureBoot()) return;
+  const upd = {name:n, color:myColor}; if(pfPhoto !== undefined) upd.photo = pfPhoto || "none";
+  db.ref("users/"+uid).update(upd);
+  if(roomRef) roomRef.child("users/"+uid).update({name:n, color:myColor});
+  $("pf").hidden = true; toast("Профиль сохранён");
+};
+$("hAv").onclick = $("btnPf2").onclick = openProfile;
+
+/* ---------- главный экран ---------- */
+let pubRooms = {}, crSrc = "img", crAcc = "invite";
+let homeKey = "";
+function refreshHome(){
+  const b = $("hAv"); if(!b) return;
+  const nm = myName || (authUser && authUser.displayName) || "?", key = nm+"|"+myColor+"|"+myPhoto.length+myPhoto.slice(-12);
+  if(key === homeKey) return; homeKey = key;
+  b.innerHTML = ""; b.append(mkAv(nm, myColor, myPhoto, 42));
+}
+function watchPublic(){
+  if(watchPublic.on) return; watchPublic.on = true;
+  db.ref("publicRooms").on("value", s => { pubRooms = s.val() || {}; renderRooms(); });
+}
+const CODE_RE = /^[A-Za-z0-9]{4,12}$/;
+let homeTab = "all";
+function renderRooms(){
+  const box = $("rooms"), raw = $("hq").value.trim(), q = raw.toLowerCase(); box.innerHTML = "";
+  if(CODE_RE.test(raw)){
+    const c = el("div","rc cd"); c.append(el("div","tt","Войти по коду "+raw.toUpperCase())); c.onclick = () => joinByCode(raw); box.append(c);
+  }
+  const mine = r => r.by === uid || !!friends[r.by];
+  const list = Object.entries(pubRooms).filter(([c,r]) => r.title && Object.keys(r.members || {}).length && (r.access !== "friends" || mine(r)) && (homeTab === "all" || mine(r)) && (!q || r.title.toLowerCase().includes(q) || (r.host || "").toLowerCase().includes(q))).sort((a,b) => (b[1].ts||0)-(a[1].ts||0));
+  if(!list.length && !CODE_RE.test(raw)){ box.append(el("div","empty", q ? "Ничего не найдено" : homeTab === "fr" ? "Друзья сейчас не читают. Создай комнату и позови их" : "Пока никто не читает. Создай комнату первым")); return; }
+  list.forEach(([c,r]) => {
+    const card = el("div","rc"), th = el("div","th"), inf = el("div","inf");
+    if(r.cover && PHOTO_RE.test(r.cover)) th.style.backgroundImage = 'url("'+r.cover+'")'; else th.textContent = r.title[0];
+    inf.append(el("div","tt",r.title), el("div","sb",(r.access === "friends" ? "Только друзья" : "Публичная")+" · Хост: "+(r.host || "")));
+    const avs = el("div","avs"); Object.values(r.members || {}).slice(0,5).forEach(m => avs.append(mkAv(m.name, m.color, "", 32)));
+    inf.append(avs); card.append(th, inf); card.onclick = () => enterRoom(c); box.append(card);
+  });
+}
+async function joinByCode(v){
+  const c = v.trim().toUpperCase(); if(!ensureBoot()) return;
+  const sn = await db.ref("rooms/"+c+"/users").get();
+  if(!sn.exists()) return toast("Комната не найдена или пуста");
+  enterRoom(c);
+}
+$("hq").addEventListener("input", renderRooms);
+$("hq").addEventListener("keydown", e => { const v = $("hq").value.trim(); if(e.key === "Enter" && CODE_RE.test(v)) joinByCode(v); });
+$("fab").onclick = () => { if(ensureBoot()) $("cr").hidden = false; };
+$("crClose").onclick = () => { $("cr").hidden = true; };
+document.querySelectorAll(".tile").forEach(t => t.onclick = () => { crSrc = t.dataset.s; document.querySelectorAll(".tile").forEach(x => x.classList.toggle("on", x === t)); });
+$("crGo").onclick = () => {
+  const t = $("crTitle").value.trim();
+  if(crAcc !== "invite" && !t) return toast("Введи название комнаты");
+  $("cr").hidden = true; $("crTitle").value = "";
+  const url = $("crUrl").value.trim(); $("crUrl").value = "";
+  enterRoom(genCode(), {create:true, title:t, access:crAcc});
+  if(url) setTimeout(() => loadFromUrl(url), 500);
+};
+
+/* ---------- вкладки, настройки, эмодзи, прогресс ---------- */
+document.querySelectorAll("#htabs button").forEach(b => b.onclick = () => { homeTab = b.dataset.t; document.querySelectorAll("#htabs button").forEach(x => x.classList.toggle("on", x === b)); renderRooms(); });
+document.querySelectorAll("#crAccRow button").forEach(b => b.onclick = () => { crAcc = b.dataset.a; document.querySelectorAll("#crAccRow button").forEach(x => x.classList.toggle("on", x === b)); });
+document.querySelectorAll("#accRow button").forEach(b => b.onclick = () => {
+  if(!roomRef) return;
+  if(meta.by !== uid) return toast("Менять доступ может создатель комнаты");
+  roomRef.child("meta/access").set(b.dataset.a);
+});
+$("btnSet").onclick = () => { $("set").hidden = false; };
+$("setClose").onclick = () => { $("set").hidden = true; };
+document.querySelectorAll("#set [data-close]").forEach(b => b.addEventListener("click", () => { $("set").hidden = true; }));
+$("btnHide").addEventListener("click", () => document.body.classList.add("clean"));
+$("unhide").onclick = () => document.body.classList.remove("clean");
+$("phImg").onclick = () => $("fileInput").click();
+$("prog").addEventListener("click", e => {
+  const list = imgs(); if(!list.length) return;
+  const r = $("prog").getBoundingClientRect(), x = Math.max(0, Math.min(.9999, (e.clientX-r.left)/r.width))*list.length, p = Math.floor(x);
+  setPos(p, x-p); setTimeout(pushPos, 220);
+});
+function localCover(b){
+  if(typeof b === "string"){ $("icv").style.backgroundImage = 'url("'+b+'")'; return; }
+  const im = new Image();
+  im.onload = () => {
+    const c = document.createElement("canvas"); c.width = c.height = 96;
+    c.getContext("2d").drawImage(im, 0, 0, im.width, Math.min(im.height, im.width), 0, 0, 96, 96);
+    $("icv").style.backgroundImage = 'url("'+c.toDataURL("image/jpeg",.7)+'")';
+    const t = document.createElement("canvas"); t.width = t.height = 1; const y = t.getContext("2d"); y.drawImage(c, 0, 0, 1, 1);
+    const d = y.getImageData(0,0,1,1).data;
+    document.documentElement.style.setProperty("--tint", "rgb("+Math.round(d[0]*.5)+","+Math.round(d[1]*.5)+","+Math.round(d[2]*.5)+")");
+    URL.revokeObjectURL(im.src);
+  };
+  im.src = URL.createObjectURL(b);
+}
+const EMO = "😀 😂 🤣 😍 🥰 😘 😭 😳 😱 🤔 😏 😴 😡 🙄 😅 😎 👍 👎 👏 🙏 💪 🔥 ❤️ 💔 💕 ✨ 🎉 💀 👀 😈 🥺 🤯".split(" ");
+EMO.forEach(e => { const b = el("button",null,e); b.onclick = () => { const i = $("msgInput"); i.value += e; i.focus(); }; $("emojis").append(b); });
+$("emoBtn").onclick = () => { $("emojis").hidden = !$("emojis").hidden; };
+
+/* ---------- глава по ссылке ---------- */
+const PROXIES = [u => "https://corsproxy.io/?url="+encodeURIComponent(u), u => "https://api.allorigins.win/raw?url="+encodeURIComponent(u), u => "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u)];
+const PX = () => (LS.proxy || "").replace(/\/+$/, "");
+const PUB = [
+  u => "https://corsproxy.io/?url="+encodeURIComponent(u),
+  u => "https://api.allorigins.win/raw?url="+encodeURIComponent(u),
+  u => "https://api.codetabs.com/v1/proxy?quest="+encodeURIComponent(u),
+  u => "https://cors.eu.org/"+u,
+  u => "https://yacdn.org/proxy/"+u,
+  u => "https://r.jina.ai/"+u,
+];
+function cleanBody(x, json){
+  const k = x.indexOf("Markdown Content:"); if(k >= 0 && x.indexOf("URL Source:") >= 0) x = x.slice(k+17);
+  x = x.trim();
+  if(!json) return x;
+  const i = x.search(/[\[{]/), j = Math.max(x.lastIndexOf("}"), x.lastIndexOf("]"));
+  if(i < 0 || j < i) throw new Error("nojson");
+  x = x.slice(i, j+1); JSON.parse(x); return x;
+}
+async function netText(url, ref, json){
+  const px = PX(), tries = [], ctl = new AbortController();
+  if(px) tries.push(px+"/api?url="+encodeURIComponent(url)+(ref ? "&ref="+encodeURIComponent(ref) : ""));
+  tries.push(url); PUB.forEach(f => tries.push(f(url)));
+  const one = async t => {
+    const tm = setTimeout(() => ctl.abort(), 15000);
+    try{ const r = await fetch(t, {signal:ctl.signal}); if(!r.ok) throw new Error("http"); const x = cleanBody(await r.text(), json); if(!x || x.length < 2) throw new Error("empty"); return x; }
+    finally{ clearTimeout(tm); }
+  };
+  try{ const x = await Promise.any(tries.map(one)); ctl.abort(); return x; }
+  catch(e){ throw new Error("net"); }
+}
+const netJson = async (u, ref) => JSON.parse(await netText(u, ref, true));
+const imgProxy = (u, ref) => PX() ? PX()+"/img?url="+encodeURIComponent(u)+"&ref="+encodeURIComponent(ref || "https://remanga.org/") : u;
+async function fetchHtml(url){ const t = await netText(url); if(t.length < 500) throw new Error("fetch"); return t; }
+function extractImages(html, base){
+  html = html.replace(/\\\//g, "/").replace(/&amp;/g, "&");
+  const re = /["'(]([^"'()\s<>]+?\.(?:jpe?g|png|webp|avif)(?:\?[^"'()\s<>]*)?)["')]/gi, seen = new Set(), out = []; let m;
+  while((m = re.exec(html))){
+    let u; try{ u = new URL(m[1], base).href; }catch(e){ continue; }
+    if(!/^https?:/.test(u) || seen.has(u)) continue; seen.add(u); out.push(u);
+  }
+  const key = u => { const x = new URL(u); return x.origin+x.pathname.replace(/[^/]*$/, ""); };
+  const g = {}; out.forEach(u => (g[key(u)] = g[key(u)] || []).push(u));
+  const seq = /(\/|[-_])\d{1,4}\.(jpe?g|png|webp|avif)/i;
+  let best = [], bs = -1;
+  Object.values(g).forEach(a => { const sc = a.length + a.filter(u => seq.test(u)).length*2; if(sc > bs){ bs = sc; best = a; } });
+  return best.map(u => u.replace(/^http:/, "https:"));
+}
+function setSt(t){ $("chSt").textContent = t; }
+const MD = "https://api.mangadex.org", MDR = "&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica";
+const RM = "https://api.remanga.org/api", RMR = "https://remanga.org/";
+let chMode = "room", chLang = "all", chProv = LS.prov || (PX() ? "rm" : "md"), chManga = null, chChapters = [], qTimer = 0;
+const rmFlat = a => Array.isArray(a) ? a.flatMap(rmFlat) : [a];
+async function publishImgs(url, list){
+  await roomRef.child("chapter").set({url, imgs:list.slice(0, 400), ts:Date.now(), by:uid});
+  saveRecent(url, meta.title); $("ch").hidden = true; setSt("");
+}
+async function loadMangadex(id){
+  if(!roomRef) return; setSt("Загружаю главу..."); toast("Загружаю главу...");
+  try{
+    const d = await netJson(MD+"/at-home/server/"+id), h = d.chapter.hash;
+    const list = (d.chapter.dataSaver || []).map(f => d.baseUrl.replace(/^http:/, "https:")+"/data-saver/"+h+"/"+f);
+    if(!list.length) throw new Error("empty");
+    await publishImgs("https://mangadex.org/chapter/"+id, list);
+  }catch(e){ setSt("Не получилось загрузить эту главу. Выбери другую"); toast("Глава не загрузилась"); }
+}
+async function loadRemanga(id){
+  if(!roomRef) return; setSt("Загружаю главу..."); toast("Загружаю главу...");
+  try{
+    const d = await netJson(RM+"/titles/chapters/"+id+"/", RMR);
+    const pages = rmFlat((d.content || {}).pages || []).filter(p => p && p.link).sort((x,y) => (x.id||0)-(y.id||0));
+    if(!pages.length) throw new Error("empty");
+    await publishImgs("https://remanga.org/manga/chapter/"+id, pages.map(p => imgProxy(new URL(p.link, RMR).href.replace(/^http:/, "https:"))));
+  }catch(e){ setSt("Глава с ReManga не загрузилась: сайт закрыт для ботов или глава платная. Найди эту манхву во вкладке MangaDex"); toast("Глава не загрузилась"); }
+}
+function slugQuery(url){
+  try{
+    const parts = new URL(url).pathname.split("/").filter(Boolean), i = parts.findIndex(x => /^(manga|title|titles|series|comic|manhwa|read)$/i.test(x));
+    const seg = i >= 0 ? parts[i+1] : parts.slice().sort((x,y) => y.length-x.length)[0];
+    return (seg || "").replace(/[-_]+/g, " ").replace(/\b\d+\b/g, "").trim();
+  }catch(e){ return ""; }
+}
+async function loadFromUrl(raw){
+  raw = raw || "";
+  if(/^mangadex:/.test(raw)) return loadMangadex(raw.slice(9));
+  if(/^remanga:/.test(raw)) return loadRemanga(raw.slice(8));
+  let url = raw.split(/javascript:/i)[0].trim(); { const mm = url.match(/https?:\/\/\S+/i); if(mm) url = mm[0]; }
+  if(!/^https?:\/\//i.test(url)){ if(/^[\w-]+(\.[\w-]+)+\S*$/.test(url)) url = "https://"+url; else return toast("Вставь ссылку на страницу главы"); }
+  let m;
+  if((m = url.match(/remanga\.org\/(?:manga|titles?)\/[^/?#]+\/(\d{4,})/i))) return loadRemanga(m[1]);
+  if((m = url.match(/remanga\.org\/(?:manga|titles?)\/([^/?#]+)\/?(?:[?#]|$)/i))){ setProv("rm"); return openManga({kind:"rm", dir:m[1], title:""}); }
+  if((m = url.match(/mangadex\.org\/chapter\/([0-9a-f-]{36})/i))) return loadMangadex(m[1]);
+  if((m = url.match(/mangadex\.org\/title\/([0-9a-f-]{36})/i))){ setProv("md"); try{ const d = await netJson(MD+"/manga/"+m[1]+"?includes[]=cover_art"); return openManga(mdItem(d.data)); }catch(e){ return setSt("Не получилось открыть манхву"); } }
+  if(!roomRef) return;
+  setSt("Ищу картинки на странице..."); toast("Ищу картинки...");
+  try{
+    const list = extractImages(await fetchHtml(url), url);
+    if(list.length < 3) throw new Error("few");
+    await publishImgs(url, list);
+  }catch(e){
+    const q = slugQuery(url); setSt("Этот сайт не отдаёт главу. Ищу эту манхву в каталоге:");
+    if(q){ $("chQ").value = q; searchManga(q, true); }
+  }
+}
+function chRow(img, title, sub, onTap){
+  const r = document.createElement("button"); r.className = "mrow chrow";
+  if(img){ const i = new Image(); i.src = img; i.className = "chcv"; i.loading = "lazy"; i.referrerPolicy = "no-referrer"; r.append(i); }
+  const d = document.createElement("div"); d.className = "nm"; d.append(title); if(sub){ const x = document.createElement("div"); x.className = "mut"; x.textContent = sub; d.append(x); }
+  r.append(d); r.onclick = onTap; return r;
+}
+const mdTitle = m => { const t = m.attributes.title || {}; return t.en || t.ru || t["ja-ro"] || Object.values(t)[0] || "Без названия"; };
+const mdCover = m => { const c = (m.relationships || []).find(r => r.type === "cover_art"); return c && c.attributes ? "https://uploads.mangadex.org/covers/"+m.id+"/"+c.attributes.fileName+".256.jpg" : ""; };
+const mdItem = m => ({kind:"md", id:m.id, title:mdTitle(m), sub:[m.attributes.year, m.attributes.status].filter(Boolean).join(" · "), cover:mdCover(m)});
+async function mdSearch(q){ const d = await netJson(MD+"/manga?limit=20&includes[]=cover_art&order[relevance]=desc"+MDR+"&title="+encodeURIComponent(q)); return d.data.map(mdItem); }
+async function rmSearch(q){
+  const d = await netJson(RM+"/search/?query="+encodeURIComponent(q)+"&page=1&count=20&field=titles", RMR);
+  return (d.content || []).map(i => { const im = i.img || {}, p = im.mid || im.low || im.high;
+    return {kind:"rm", dir:i.dir, title:i.rus_name || i.main_name || i.dir, sub:i.rus_name && i.main_name ? i.main_name : "", cover:p ? imgProxy(new URL(p, RMR).href) : ""}; });
+}
+async function mdChapters(m){
+  let all = [], off = 0, total = 1;
+  while(off < total && off < 1500){
+    const d = await netJson(MD+"/manga/"+m.id+"/feed?limit=500&offset="+off+"&order[chapter]=asc&translatedLanguage[]=ru&translatedLanguage[]=en&includeExternalUrl=0"+MDR);
+    total = d.total; off += 500; all = all.concat(d.data);
+  }
+  return all.filter(c => c.attributes.pages > 0 && !c.attributes.externalUrl).map(c => { const a = c.attributes;
+    return {key:"mangadex:"+c.id, label:"Глава "+(a.chapter || "?")+(a.title ? " · "+a.title : ""), sub:a.translatedLanguage.toUpperCase()+" · "+a.pages+" стр.", lang:a.translatedLanguage}; });
+}
+async function rmChapters(m){
+  const t = await netJson(RM+"/titles/"+m.dir+"/", RMR), c = t.content || {}, br = (c.branches || [])[0]; if(!br) return [];
+  if(!m.title) m.title = c.rus_name || c.main_name || m.dir;
+  let all = [];
+  for(let p = 1; p <= 8; p++){ const d = await netJson(RM+"/titles/chapters/?branch_id="+br.id+"&ordering=index&page="+p+"&count=100&user_data=1", RMR); const it = d.content || []; all = all.concat(it); if(it.length < 100) break; }
+  return all.filter(x => !x.is_paid).map(x => ({key:"remanga:"+x.id, label:"Том "+x.tome+" · Глава "+x.chapter+(x.name ? " · "+x.name : ""), sub:"", lang:"ru"}));
+}
+function setProv(p){ chProv = p; LS.prov = p; document.querySelectorAll("#chProv button").forEach(b => b.classList.toggle("on", b.dataset.p === p)); }
+async function searchManga(q, keepSt){
+  const box = $("chList"); chManga = null; if(!keepSt) setSt("Ищу...");
+  try{
+    const list = await (chProv === "rm" ? rmSearch(q) : mdSearch(q));
+    if($("chQ").value.trim() !== q) return;
+    box.innerHTML = ""; if(!keepSt) setSt(list.length ? "" : "Ничего не нашлось. Попробуй другое название");
+    list.forEach(m => box.append(chRow(m.cover, m.title, m.sub, () => openManga(m))));
+  }catch(e){
+    if(chProv === "rm"){ setProv("md"); setSt("ReManga закрыт для ботов, ищу в MangaDex..."); return searchManga(q, true); }
+    setSt("Каталог сейчас не отвечает. Попробуй ещё раз или добавь главу файлами с телефона (кнопка ниже)");
+  }
+}
+async function openManga(m){
+  chManga = m; const box = $("chList"); box.innerHTML = ""; setSt("Загружаю главы...");
+  try{ chChapters = await (m.kind === "rm" ? rmChapters(m) : mdChapters(m)); setSt(chChapters.length ? "" : "Глав не нашлось (возможно, они платные)"); renderChapters(); }
+  catch(e){ setSt(m.kind === "rm" ? "ReManga закрыт для ботов. Найди эту манхву во вкладке MangaDex" : "Не получилось загрузить список глав"); }
+}
+function renderChapters(){
+  const box = $("chList"); box.innerHTML = "";
+  const back = document.createElement("button"); back.className = "chback"; back.textContent = "← К результатам"; back.onclick = () => { const q = $("chQ").value.trim(); if(q) searchManga(q); else box.innerHTML = ""; };
+  const h = document.createElement("div"); h.className = "nm"; h.style.cssText = "font-weight:800;font-size:17px;margin:4px 0"; h.textContent = chManga.title || "";
+  box.append(back, h);
+  if(chManga.kind === "md"){
+    const tabs = document.createElement("div"); tabs.className = "chtabs";
+    [["all","Все"],["ru","RU"],["en","EN"]].forEach(([k,t]) => { const b = document.createElement("button"); b.textContent = t; b.className = chLang === k ? "on" : ""; b.onclick = () => { chLang = k; renderChapters(); }; tabs.append(b); });
+    box.append(tabs);
+  }
+  const rows = chChapters.filter(c => chManga.kind !== "md" || chLang === "all" || c.lang === chLang);
+  if(!rows.length){ const e = document.createElement("div"); e.className = "hint"; e.textContent = "Для этого языка глав нет"; box.append(e); return; }
+  rows.forEach(c => box.append(chRow("", c.label, c.sub, () => pickChapter(c))));
+}
+function pickChapter(c){
+  if(chMode === "create"){
+    $("crUrl").value = c.key; if(!$("crTitle").value.trim() && chManga && chManga.title) $("crTitle").value = chManga.title.slice(0,60);
+    $("ch").hidden = true; toast("Глава выбрана"); return;
+  }
+  loadFromUrl(c.key);
+}
+function showSearch(mode){
+  chMode = mode; $("chLink").hidden = mode === "create"; $("chTitle").textContent = mode === "create" ? "Найти манхву" : "Выбрать главу";
+  setSt(""); $("ch").hidden = false; setProv(chProv);
+  const q = mode === "create" ? $("crTitle").value.trim() : (meta.title || "");
+  if(q && !$("chQ").value.trim()){ $("chQ").value = q; searchManga(q); }
+}
+function openChapter(){ if(!roomRef) return; showSearch("room"); }
+$("btnChUrl").addEventListener("click", openChapter);
+$("phUrl").onclick = openChapter;
+$("chClose").onclick = () => { $("ch").hidden = true; };
+$("chGo").onclick = () => loadFromUrl($("chUrl").value);
+$("chUrl").addEventListener("paste", () => setTimeout(() => { if($("chUrl").value.trim()) loadFromUrl($("chUrl").value); }, 60));
+$("chPaste").onclick = async () => { await pasteTo("chUrl"); if($("chUrl").value.trim()) loadFromUrl($("chUrl").value); };
+$("chQ").addEventListener("input", () => { clearTimeout(qTimer); const q = $("chQ").value.trim(); if(!q){ $("chList").innerHTML = ""; return; } qTimer = setTimeout(() => searchManga(q), 450); });
+$("crGoogle").onclick = () => showSearch("create");
+$("chProv").onclick = e => { const b = e.target.closest("button"); if(!b) return; setProv(b.dataset.p); const q = $("chQ").value.trim(); if(q) searchManga(q); };
+$("pxUrl").value = PX();
+$("pxSave").onclick = async () => {
+  const v = $("pxUrl").value.trim().replace(/\/+$/, ""); LS.proxy = v;
+  if(!v) return toast("Прокси убран");
+  try{ const r = await fetch(v+"/ping"); toast(r.ok && (await r.text()) === "ok" ? "Прокси работает" : "Адрес не похож на прокси Avros"); }catch(e){ toast("Прокси не отвечает"); }
+};
+$("crPaste").onclick = () => pasteTo("crUrl");
+function setSt(t){ $("chSt").textContent = t; }
+async function pasteTo(id){ try{ $(id).value = (await navigator.clipboard.readText()).trim(); }catch(e){ toast("Нажми на поле и вставь ссылку вручную"); } }
+
+/* ---------- главный экран: друзья и недавние ---------- */
+function renderHomeFriends(){
+  const box = $("hfr"); if(!box) return; box.innerHTML = "";
+  Object.keys(friends).forEach(f => {
+    const i = finfo[f] || {}, d = el("div","fi"), w = el("div","avw");
+    w.append(mkAv(i.name, i.color, i.photo, 56)); if(i.online) w.append(el("span","on-dot"));
+    d.append(w, el("div",null,i.name || "…")); d.onclick = () => goRoom(pairRoom(f)); box.append(d);
+  });
+  const add = el("div","fi add"), w = el("div","avw"); w.append(mkAv("+","transparent","",56)); add.append(w, el("div",null,"Добавить")); add.onclick = openFriends; box.append(add);
+}
+function saveRecent(url, title){
+  let r = []; try{ r = JSON.parse(LS.recent || "[]"); }catch(e){}
+  r = r.filter(x => x.url !== url); r.unshift({url, title:title || new URL(url).hostname}); LS.recent = JSON.stringify(r.slice(0,5)); renderRecent();
+}
+function renderRecent(){
+  let r = []; try{ r = JSON.parse(LS.recent || "[]"); }catch(e){}
+  $("recWrap").hidden = !r.length; const box = $("rec"); box.innerHTML = "";
+  r.forEach(x => {
+    const d = el("div","rec"), t = el("div","rt"); let h = ""; try{ h = new URL(x.url).hostname; }catch(e){}
+    t.append(el("div","tt",x.title), el("div","sb",h)); d.append(t);
+    d.onclick = () => { if(!ensureBoot()) return; enterRoom(genCode(), {create:true, title:x.title, access:"invite"}); setTimeout(() => loadFromUrl(x.url), 500); };
+    box.append(d);
+  });
+}
+$("addFr").onclick = openFriends;
+$("codeCard").onclick = () => { $("hq").focus(); toast("Введи код комнаты в поиске"); };
+renderHomeFriends(); renderRecent();
+
+/* ---------- участники: друзья и корона ---------- */
+function renderMem(){
+  const box = $("memList"); box.innerHTML = "";
+  Object.entries(peers).forEach(([k,v]) => {
+    const r = el("div","mrow"); r.append(mkAv(v.name, v.color, photoOf(k)));
+    r.append(el("div","nm",(k===hostId?"👑 ":"")+(v.name||"Без имени")+(k===uid?" (ты)":"")));
+    if(k !== uid){
+      if(!friends[k]){ const b = el("button",reqs[k]?"pr":null,reqs[k]?"Принять":"В друзья"); b.onclick = () => addFriendUid(k); r.append(b); }
+      else r.append(el("span","mut","друг"));
+      if(hostId === uid){ const c = el("button","pr","Передать 👑"); c.onclick = () => giveCrown(k); r.append(c); }
+    }
+    box.append(r);
+  });
+}
+function addFriendUid(k){
+  if(friends[k]) return toast("Вы уже друзья");
+  if(reqs[k]){ acceptReq(k); return; }
+  db.ref("requests/"+k+"/"+uid).set({name:myName, ts:Date.now()}).then(() => toast("Заявка отправлена"), () => toast("Не получилось отправить"));
+}
+function giveCrown(k){
+  roomRef.child("host").onDisconnect().cancel();
+  roomRef.child("host").set(k).then(() => { toast("Корона передана: "+((peers[k]||{}).name||"")); }, () => toast("Не получилось передать"));
+}
+$("who").onclick = () => { if(!roomRef) return; renderMem(); $("mem").hidden = false; };
+$("memClose").onclick = () => { $("mem").hidden = true; };
+$("mem").addEventListener("click", e => { if(e.target === $("mem")) $("mem").hidden = true; });
+const tc = e => { const t = e.touches[0]; if(t) sendCursor({clientX:t.clientX, clientY:t.clientY}); };
+wrap.addEventListener("touchstart", tc, {passive:true});
+wrap.addEventListener("touchmove", tc, {passive:true});
+
+/* ---------- эмодзи в стиле iPhone (картинки, при ошибке остаётся обычный символ) ---------- */
+const EMOJI_URL = cp => "https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15.1.2/img/apple/64/"+cp+".png";
+const EMO_RE = /\p{Extended_Pictographic}\uFE0F?(?:\u200D\p{Extended_Pictographic}\uFE0F?)*/gu;
+function emoImg(ch){
+  const cp = [...ch].map(c => c.codePointAt(0).toString(16)).join("-");
+  const im = new Image(); im.className = "emo"; im.alt = ch; im.draggable = false; im.decoding = "async";
+  im.onerror = () => { const sp = document.createElement("span"); sp.className = "emo-t"; sp.textContent = ch; im.replaceWith(sp); };
+  im.src = EMOJI_URL(cp); return im;
+}
+function emoNode(n){
+  if(n.nodeType === 3){
+    const t = n.nodeValue; EMO_RE.lastIndex = 0; if(!EMO_RE.test(t)) return;
+    const p = n.parentNode; if(!p || p.className === "emo-t" || /^(SCRIPT|STYLE|TEXTAREA|INPUT|TITLE)$/.test(p.nodeName)) return;
+    const f = document.createDocumentFragment(); let last = 0; EMO_RE.lastIndex = 0; let m;
+    while((m = EMO_RE.exec(t))){ if(m.index > last) f.append(t.slice(last, m.index)); f.append(emoImg(m[0])); last = m.index+m[0].length; }
+    if(last < t.length) f.append(t.slice(last)); p.replaceChild(f, n);
+  } else if(n.nodeType === 1 && !/^(SCRIPT|STYLE|TEXTAREA|INPUT|IMG)$/.test(n.nodeName)){
+    [...n.childNodes].forEach(emoNode);
+  }
+}
+emoNode(document.body);
+new MutationObserver(ms => ms.forEach(m => { m.addedNodes.forEach(emoNode); if(m.type === "characterData") emoNode(m.target); })).observe(document.body, {childList:true, subtree:true, characterData:true});
+
+/* ---------- живой фон: дождь ---------- */
+(function(){
+  const host = document.querySelector(".aurora"); if(!host) return;
+  const cv = document.createElement("canvas"); cv.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none"; host.append(cv);
+  const ctx = cv.getContext("2d"), reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let W, H, mob, drops = [], rings = [], last = 0, flash = 0, nextFlash = 20000+Math.random()*25000;
+  const mk = z => ({x:0, y:0, z, l:(8+z*26)*(.8+Math.random()*.5), v:(9+z*17)*(.85+Math.random()*.3), gy:H*(.52+.4*z/1.1)+(Math.random()-.5)*H*.06, s:(Math.random()-.5)*.06});
+  const place = (d, first) => { d.x = Math.random()*(W+H*.45)-H*.3; d.y = first ? Math.random()*d.gy : -30-Math.random()*H*.4; };
+  function size(){
+    W = innerWidth; H = innerHeight; mob = W < 900; cv.width = W; cv.height = H; rings = [];
+    const n = mob ? 100 : 190; drops = [];
+    for(let i = 0; i < n; i++){ const r = i/n, d = mk(r < .5 ? .45 : r < .82 ? .75 : 1.1); place(d, true); drops.push(d); }
+  }
+  size(); addEventListener("resize", size);
+  function frame(now){
+    if(!reduce) requestAnimationFrame(frame);
+    if(document.hidden) return;
+    const room = document.body.classList.contains("inroom"), gap = room ? (mob ? 66 : 33) : 33;
+    if(now-last < gap) return; const dt = Math.min(now-last, 80)/16.7; last = now;
+    const t = now/1000, wind = .10+.09*Math.sin(t*.27)+.05*Math.sin(t*1.3), n = room && mob ? drops.length*.6|0 : drops.length;
+    ctx.clearRect(0,0,W,H); ctx.lineCap = "round";
+    [[0,.6,.26,1],[.6,.9,.4,1.2],[.9,2,.62,1.7]].forEach(g => {
+      const tail = new Path2D(), head = new Path2D();
+      for(let i = 0; i < n; i++){ const d = drops[i]; if(d.z < g[0] || d.z >= g[1]) continue; const k = wind+d.s, hx = d.x, hy = d.y, mx = hx-d.l*.55*k, my = hy-d.l*.55;
+        head.moveTo(mx, my); head.lineTo(hx, hy); tail.moveTo(mx-d.l*.45*k, my-d.l*.45); tail.lineTo(mx, my); }
+      ctx.lineWidth = g[3]; ctx.strokeStyle = "rgba(190,205,255,"+(g[2]*.45)+")"; ctx.stroke(tail); ctx.strokeStyle = "rgba(215,228,255,"+g[2]+")"; ctx.stroke(head);
+    });
+    for(let i = 0; i < n; i++){
+      const d = drops[i]; d.y += d.v*dt; d.x += d.v*(wind+d.s)*dt;
+      if(d.y >= d.gy){ if(rings.length < 30) rings.push({x:d.x, y:d.gy, r:1, z:d.z}); place(d, false); }
+    }
+    ctx.lineWidth = 1;
+    rings = rings.filter(o => { o.r += .5*dt; const a = .34-o.r/(9+11*o.z); if(a <= 0) return false; ctx.strokeStyle = "rgba(205,220,255,"+a.toFixed(2)+")"; ctx.beginPath(); ctx.ellipse(o.x, o.y, o.r*1.9, o.r*.55, 0, 0, 6.283); ctx.stroke(); return true; });
+    if(!room && now > nextFlash){ flash = .09; nextFlash = now+25000+Math.random()*30000; }
+    if(flash > .004){ ctx.fillStyle = "rgba(200,215,255,"+flash.toFixed(3)+")"; ctx.fillRect(0,0,W,H); flash *= .86; }
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
