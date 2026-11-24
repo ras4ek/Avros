@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0714">
+<title>Avros Live</title>
+<style>
+  html,body{margin:0;height:100%;background:#0b0714;overflow:hidden}
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#0b0714}
+  #boot{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:10px;
+    color:#c9b8ff;font:700 14px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#0b0714}
+  #boot b{width:11px;height:11px;border-radius:50%;background:#8b6cff;box-shadow:0 0 18px #ff5fa2;animation:p 1.2s infinite}
+  @keyframes p{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.25);opacity:1}}
+</style>
+</head>
+<body>
+<div id="boot"><b></b><span>Загружаю Avros…</span></div>
+<iframe id="app" title="Avros" allow="clipboard-write; autoplay; fullscreen"></iframe>
+<script>
+(function () {
+  var q = location.search || '';
+  var f = document.getElementById('app');
+  var boot = document.getElementById('boot');
+  var tries = 0, clock = null;
+
+  function syncUrl() {
+    if (clock) return;
+    clock = setInterval(function () {
+      try {
+        var s = f.contentWindow.location.search || '';
+        var m = /[?&]room=([A-Za-z0-9._-]+)/.exec(s);
+        if (m && (location.search || '').indexOf('room=' + m[1]) < 0) {
+          history.replaceState(null, '', location.pathname + '?room=' + m[1]);
+        }
+      } catch (e) {}
+    }, 900);
+  }
+
+  function inject() {
+    var d = null;
+    try { d = f.contentDocument; } catch (e) { return true; }
+    if (!d || !d.body) return false;
+    if (d.getElementById('avl-script')) { hideBoot(); syncUrl(); return true; }
+    var s = d.createElement('script');
+    s.id = 'avl-script';
+    s.src = 'avros-live.js?v=' + Date.now();
+    s.onload = function () { hideBoot(); };
+    s.onerror = function () {
+      boot.innerHTML = '<span style="max-width:80%;text-align:center">Не загрузился avros-live.js.<br>Проверь интернет и обнови страницу.</span>';
+    };
+    d.body.appendChild(s);
+    syncUrl();
+    return true;
+  }
+
+  function hideBoot() {
+    boot.style.transition = 'opacity .3s';
+    boot.style.opacity = '0';
+    setTimeout(function () { boot.style.display = 'none'; }, 320);
+  }
+
+  f.addEventListener('load', function () { tries = 0; inject(); });
+  f.src = 'app.html' + q;
+  var iv = setInterval(function () {
+    if (inject() || ++tries > 60) clearInterval(iv);
+  }, 220);
+})();
+</script>
+</body>
+</html>
