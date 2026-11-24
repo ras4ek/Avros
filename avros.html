@@ -1,0 +1,19 @@
+<!doctype html><html lang=ru><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Avros Live</title>
+<style>html,body{margin:0;height:100%;background:#0b0714;overflow:hidden}iframe{position:fixed;inset:0;border:0;width:100%;height:100%}#b{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#c9b8ff;font:700 14px system-ui;background:#0b0714;z-index:5}</style>
+</head><body><div id=b>Загружаю Avros…</div><iframe id=f allow="clipboard-write; autoplay; fullscreen"></iframe>
+<script>
+var q=location.search||'',f=document.getElementById('f'),b=document.getElementById('b'),n=0,c=0;
+function hide(){b.style.transition='opacity .25s';b.style.opacity=0;setTimeout(function(){b.style.display='none'},260)}
+function tick(){if(c)return;c=setInterval(function(){try{var m=/[?&]room=([A-Za-z0-9_-]+)/.exec(f.contentWindow.location.search||'');if(m&&location.search.indexOf('room='+m[1])<0)history.replaceState(null,'',location.pathname+'?room='+m[1])}catch(e){}},900)}
+function inj(){var d=null;try{d=f.contentDocument}catch(e){return true}
+ if(!d||!d.body)return false;
+ if(d.getElementById('avls')){hide();tick();return true}
+ var s=d.createElement('script');s.id='avls';s.src='avros-live.js?v='+Date.now();s.onload=hide;
+ s.onerror=function(){b.innerHTML='Не загрузился avros-live.js'};
+ try{d.defaultView.addEventListener('error',function(e){b.style.display='flex';b.style.opacity=1;b.innerHTML='Ошибка слоя: '+String(e&&e.message||'').slice(0,140)})}catch(e){}
+ d.body.appendChild(s);tick();return true}
+f.addEventListener('load',function(){n=0;inj()});
+function start(t){f.src=t+q}
+fetch('app.html',{method:'HEAD'}).then(function(r){start(r.ok?'app.html':'index.html')}).catch(function(){start('index.html')});
+var iv=setInterval(function(){if(inj()||++n>80)clearInterval(iv)},220);
+</script></body></html>
